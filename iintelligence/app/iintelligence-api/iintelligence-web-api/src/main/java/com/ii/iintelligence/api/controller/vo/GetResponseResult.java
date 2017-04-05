@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  * Created by Administrator on 2016/12/16 0016.
  */
-public class PayInfoResult extends WebResult {
+public class GetResponseResult extends WebResult {
     /**
      * OK("成功"), FAILED("失败"), UNKNOWN("未明"), CREATED("初创")
      */
@@ -51,7 +51,7 @@ public class PayInfoResult extends WebResult {
 
     @Override
     public String toString() {
-        return "PayInfoResult{" +
+        return "GetResponseResult{" +
                 "status='" + status + '\'' +
                 ", code='" + code + '\'' +
                 ", desc='" + getDesc() + '\'' +
@@ -59,12 +59,12 @@ public class PayInfoResult extends WebResult {
     }
 
     private static Properties errorMsgMap = new Properties();
-    private static Logger logger         = LoggerFactory.getLogger(PayInfoResult.class);
+    private static Logger logger         = LoggerFactory.getLogger(GetResponseResult.class);
     /**
      * 使用static代码块，在系统启动时，从文件中初始.
      */
     static {
-        try (InputStreamReader reader = new InputStreamReader(PayInfoResult.class.getClassLoader()
+        try (InputStreamReader reader = new InputStreamReader(GetResponseResult.class.getClassLoader()
                 .getResourceAsStream("errorMsg/pay_errro_code_msg.properties"), "UTF-8")) {
             errorMsgMap.load(reader);
         } catch (FileNotFoundException e) {

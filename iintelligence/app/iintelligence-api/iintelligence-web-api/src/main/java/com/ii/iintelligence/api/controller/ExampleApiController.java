@@ -2,10 +2,10 @@ package com.ii.iintelligence.api.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import com.ii.iintelligence.api.controller.constatns.FissWebConstants;
-import com.ii.iintelligence.api.controller.vo.NewSubscribeVo;
-import com.ii.iintelligence.api.controller.vo.PayInfoResult;
-import com.ii.iintelligence.api.controller.vo.TradingResult;
+import com.ii.iintelligence.api.controller.constatns.WebConstants;
+import com.ii.iintelligence.api.controller.vo.RequestVo;
+import com.ii.iintelligence.api.controller.vo.GetResponseResult;
+import com.ii.iintelligence.api.controller.vo.PostResponseResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/trading")
 @Api(value = "trading", description = "交易相关接口")
-public class TradingApiController {
-    private final static Logger  logger = LoggerFactory.getLogger(TradingApiController.class);
+public class ExampleApiController {
+    private final static Logger  logger = LoggerFactory.getLogger(ExampleApiController.class);
 
-    @ApiOperation(value = "查询支付信息", response = PayInfoResult.class, httpMethod = "GET")
+    @ApiOperation(value = "查询支付信息", response = GetResponseResult.class, httpMethod = "GET")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "tradingId", dataType = "string", required = true, value = "交易单ID")})
     @ResponseBody
     @RequestMapping(value = "/payInfo", method = GET)
-    public PayInfoResult payInfo(String tradingId){
+    public GetResponseResult payInfo(String tradingId){
         if(logger.isInfoEnabled()) {
             logger.info("查询支付信息， tradingId : {}",tradingId);
         }
-        PayInfoResult payInfoResult = new PayInfoResult();
+        GetResponseResult payInfoResult = new GetResponseResult();
 
         if(logger.isInfoEnabled()) {
             logger.info("查询支付信息返回: {}", payInfoResult.toString());
@@ -38,17 +38,17 @@ public class TradingApiController {
     }
 
 
-    @ApiOperation(value = "认购", response = TradingResult.class, httpMethod = "POST")
+    @ApiOperation(value = "认购", response = PostResponseResult.class, httpMethod = "POST")
     @ResponseBody
     @RequestMapping(value = "/subscribe", method = POST)
-    public TradingResult subscribe(@ApiParam(value = "认购", required = true) @RequestBody NewSubscribeVo newSubscribeVo) {
+    public PostResponseResult subscribe(@ApiParam(value = "认购", required = true) @RequestBody RequestVo requestVo) {
         if(logger.isInfoEnabled())
-            logger.info("认购请求: "+newSubscribeVo.toString());
-        TradingResult result = new TradingResult();
+            logger.info("认购请求: "+ requestVo.toString());
+        PostResponseResult result = new PostResponseResult();
 
-        if(logger.isInfoEnabled() && result.getResultCode().equals(FissWebConstants.RESULT_SUCCESS_CODE))
+        if(logger.isInfoEnabled() && result.getResultCode().equals(WebConstants.RESULT_SUCCESS_CODE))
             logger.info("===== 认购请求成功 =====");
-        else if(result.getResultCode().equals(FissWebConstants.RESULT_FAIL_CODE))
+        else if(result.getResultCode().equals(WebConstants.RESULT_FAIL_CODE))
             logger.warn("!--! 认购请求失败，返回: {}", result.getMessage());
         return result;
     }

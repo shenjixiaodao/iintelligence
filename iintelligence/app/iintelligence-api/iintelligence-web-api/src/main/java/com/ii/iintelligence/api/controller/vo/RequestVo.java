@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * Created by liyou on 2016/10/18.
  */
-public class NewSubscribeVo {
+public class RequestVo {
     @ApiModelProperty(value = "用户ID", required = true)
     private String     userId;
     @ApiModelProperty(value = "银行卡账号", required = true)

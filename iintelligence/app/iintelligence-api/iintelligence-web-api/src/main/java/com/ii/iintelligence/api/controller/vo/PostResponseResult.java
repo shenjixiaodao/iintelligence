@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TradingResult extends WebResult implements Serializable {
+public class PostResponseResult extends WebResult implements Serializable {
     @ApiModelProperty(value = "交易流水号")
     private String            tradingId;
 

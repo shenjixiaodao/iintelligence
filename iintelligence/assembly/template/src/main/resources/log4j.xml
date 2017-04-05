@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="[%d{dd HH:mm:ss,SSS} %-5p] [%t] %c{8} - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="DEBUG"/>
+            <param name="levelMax" value="FATAL"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
+
+    <appender name="app-file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/logs/${app.sysname}/biz.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="[%d{MMdd HH:mm:ss SSS} %-5p] [%t] %c{8} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="startup-file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${user.home}/logs/${app.sysname}/startup.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="[%d{MMdd HH:mm:ss SSS} %-5p] [%t] %c{8} - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <logger name="com.ect.musa.web.listener" additivity="false">
+        <appender-ref ref="startup-file"/>
+    </logger>
+
+
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="app-file"/>
+    </root>
+</log4j:configuration>

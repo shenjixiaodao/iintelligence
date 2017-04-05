@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/fissmall.iml" filepath="$PROJECT_DIR$/app/fissmall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/fissmall-api/fissmall-api.iml" filepath="$PROJECT_DIR$/app/fissmall-api/fissmall-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/fissmall-assembly.iml" filepath="$PROJECT_DIR$/assembly/fissmall-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/template/fissmall-assembly-template.iml" filepath="$PROJECT_DIR$/assembly/template/fissmall-assembly-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/integration/client/fissmall-integration-client/fissmall-integration-client.iml" filepath="$PROJECT_DIR$/app/integration/client/fissmall-integration-client/fissmall-integration-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/integration/client/fissmall-integration-client-parent.iml" filepath="$PROJECT_DIR$/app/integration/client/fissmall-integration-client-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/integration/fissmall-integration-parent.iml" filepath="$PROJECT_DIR$/app/integration/fissmall-integration-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fissmall-parent.iml" filepath="$PROJECT_DIR$/fissmall-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/fissmall-utils-parent/fissmall-utils/fissmall-utils.iml" filepath="$PROJECT_DIR$/app/fissmall-utils-parent/fissmall-utils/fissmall-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/fissmall-utils-parent/fissmall-utils-parent.iml" filepath="$PROJECT_DIR$/app/fissmall-utils-parent/fissmall-utils-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/web/fissmall-web/fissmall-web.iml" filepath="$PROJECT_DIR$/app/web/fissmall-web/fissmall-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/fissmall-api/fissmall-web-api/fissmall-web-api.iml" filepath="$PROJECT_DIR$/app/fissmall-api/fissmall-web-api/fissmall-web-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/web/fissmall-web-parent.iml" filepath="$PROJECT_DIR$/app/web/fissmall-web-parent.iml" />
+    </modules>
+  </component>
+</project>

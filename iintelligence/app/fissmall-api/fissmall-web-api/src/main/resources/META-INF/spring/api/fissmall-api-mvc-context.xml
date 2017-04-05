@@ -22,7 +22,7 @@
     <mvc:resources mapping="/dist/**" location="/WEB-INF/dist/"/>
     <mvc:resources mapping="/**/*.json" location="/WEB-INF/dist/"/>
     
-	<bean name="springfox" class="com.ect.fissmall.api.swagger.SwaggerConfig"/>
+	<bean name="springfox" class="com.ii.iintelligence.api.swagger.SwaggerConfig"/>
 
 
 </beans>

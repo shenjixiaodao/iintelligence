@@ -15,7 +15,7 @@
 
     <modules>
         <module>integration</module>
-        <module>fissmall-api</module>
+        <module>iintelligence-api</module>
     </modules>
 
 

@@ -13,6 +13,6 @@
  
   <packaging>pom</packaging>
   <modules>
-  	<module>fissmall-web-api</module>
+  	<module>iintelligence-web-api</module>
   </modules>
 </project>

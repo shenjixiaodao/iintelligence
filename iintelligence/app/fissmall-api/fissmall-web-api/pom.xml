@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.ect.fissmall</groupId>
-    <artifactId>fissmall-api</artifactId>
+    <groupId>com.ii.iintelligence</groupId>
+    <artifactId>iintelligence-api</artifactId>
     <version>1.0</version>
   </parent>
-  <artifactId>fissmall-web-api</artifactId>
+  <artifactId>iintelligence-web-api</artifactId>
   <name>fissmall-web-api</name>
   <url>http://maven.apache.org</url>
 

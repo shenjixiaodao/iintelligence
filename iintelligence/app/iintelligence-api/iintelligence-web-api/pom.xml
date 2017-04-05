@@ -15,16 +15,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-       <dependency>
-           <groupId>com.ect.fissmall</groupId>
-           <artifactId>fissmall-integration-client</artifactId>
-           <version>1.0</version>
-       </dependency>
-       <dependency>
+       <!--<dependency>
            <groupId>com.ect.fissmall</groupId>
            <artifactId>fissmall-utils</artifactId>
            <version>${project.version}</version>
-       </dependency>
+       </dependency>-->
        <dependency>
            <groupId>javax.servlet</groupId>
            <artifactId>javax.servlet-api</artifactId>

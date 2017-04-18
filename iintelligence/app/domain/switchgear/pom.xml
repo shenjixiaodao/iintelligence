@@ -3,22 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>iintelligence-parent</artifactId>
+        <artifactId>domain-parent</artifactId>
         <groupId>com.ii.iintelligence</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iintelligence</artifactId>
+    <artifactId>domian-switchgear</artifactId>
 
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>integration</module>
-        <module>iintelligence-api</module>
-        <module>domain</module>
-        <module>biz</module>
-    </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>domian-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -8,18 +8,19 @@
     <version>1.0</version>
   </parent>
   <artifactId>iintelligence-web-api</artifactId>
-  <name>fissmall-web-api</name>
+  <name>iintelligence-web-api</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-       <!--<dependency>
-           <groupId>com.ect.fissmall</groupId>
-           <artifactId>fissmall-utils</artifactId>
-           <version>${project.version}</version>
-       </dependency>-->
+      <dependency>
+          <groupId>com.ii.iintelligence</groupId>
+          <artifactId>domian-switchgear</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+
        <dependency>
            <groupId>javax.servlet</groupId>
            <artifactId>javax.servlet-api</artifactId>

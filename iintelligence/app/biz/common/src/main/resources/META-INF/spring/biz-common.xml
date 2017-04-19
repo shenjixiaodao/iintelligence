@@ -10,7 +10,8 @@
     <bean id="eventBus" class="com.google.common.eventbus.AsyncEventBus">
         <constructor-arg ref="threadPool"/>
     </bean>
-    <!--<bean id="deadEventProcessor" class="com.ect.fisstrade.biz.common.event.DeadEventProcessor" />
-    <bean id="eventBusSubscriberProcessor" class="com.ect.fisstrade.biz.common.event.EventBusSubscriberProcessor" />-->
+
+    <bean id="deadEventProcessor" class="com.ii.biz.common.event.processor.DeadEventProcessor" />
+    <bean id="eventBusSubscriberProcessor" class="com.ii.biz.common.event.processor.EventBusSubscriberProcessor" />
 
 </beans>

@@ -25,6 +25,7 @@ public class SwitchStateEventProcessor {
          * 则该 event 应当在十秒内被处理掉。
          */
         SwitchHandler handler = SwitchHandlerHolder.getHolder().fetchHandler(currentSwitch.deviceId());
+        Result<Switch> result = new Result<>(false, null, null);
         if(null != handler) {
             /**
              *
@@ -33,12 +34,16 @@ public class SwitchStateEventProcessor {
              */
             Switch oldSwitch = handler.getSwitch();
             if(!currentSwitch.sameStateAs(oldSwitch)) {
-                //todo 处理响应结果
-                Result result = null;
+                result.setSuccess(true);
+                result.setResultObj(currentSwitch);
                 handler.resultReadyEvent(result);
             }
         } else {
-            //todo 没有可处理该even的 handler, 设置响应用户结果
+            UserSwitchHandler userHandler = UserSwitchHandlerHolder.getHolder().fetchHandler(currentSwitch.deviceId());
+            result.setSuccess(false);
+            //todo 没有可处理该even的 handler, 设置响应用户异常结果
+            //result.setErrorContext();
+            userHandler.resultReadyEvent(result);
         }
     }
 
@@ -46,8 +51,12 @@ public class SwitchStateEventProcessor {
     public void changeSwitchStateOKProcessor(ChangeSwitchStateOKEvent event){
         Switch currentSwitch = event.getSwitch();
         UserSwitchHandler handler = UserSwitchHandlerHolder.getHolder().fetchHandler(currentSwitch.deviceId());
+        Result<Switch> result = new Result<>(false, null, null);
         if(null != handler){
             //将当前设备响应给用户
+            //result.setResultObj(currentSwitch);
+            result.setSuccess(true);
+            handler.resultReadyEvent(result);
         }
     }
 

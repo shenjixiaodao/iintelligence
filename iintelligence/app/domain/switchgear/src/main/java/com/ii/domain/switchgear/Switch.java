@@ -14,6 +14,10 @@ public class Switch implements Entity<Switch>{
 
     private SwitchState state;
 
+    public Switch(DeviceId deviceId, SwitchState state) {
+        this.deviceId = deviceId;
+        this.state = state;
+    }
 
     public void deviceId(DeviceId deviceId){
         this.deviceId = deviceId;

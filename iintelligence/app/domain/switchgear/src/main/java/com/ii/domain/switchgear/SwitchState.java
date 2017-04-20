@@ -1,20 +1,29 @@
 package com.ii.domain.switchgear;
 
-import com.ii.domain.base.DeviceId;
-import com.ii.domain.base.Entity;
 import com.ii.domain.base.State;
-import com.ii.domain.base.ValueObject;
 
 /**
- * Created by liyou on 17/4/17.
+ * Created by liyou on 17/4/20.
  */
-public class SwitchState implements Entity<SwitchState>, ValueObject<SwitchState>, State<SwitchState>{
+public class SwitchState implements State<SwitchState> {
 
-    private DeviceId deviceId;
+    private final State state;
+    private final Long timestamp;
 
-    private State state;
+    public SwitchState(State state, Long timestamp) {
+        this.state = state;
+        this.timestamp = timestamp;
+    }
 
-    enum State{
+    public State state(){
+        return this.state;
+    }
+
+    public Long timestamp(){
+        return this.timestamp;
+    }
+
+    public enum State{
         ON("打开"), OFF("关闭");
         private String text;
         State(String text){
@@ -25,36 +34,15 @@ public class SwitchState implements Entity<SwitchState>, ValueObject<SwitchState
         }
     }
 
-    public void deviceId(DeviceId deviceId){
-        this.deviceId = deviceId;
-    }
-    public DeviceId deviceId(){
-        return deviceId;
-    }
 
-    public void state(State state){
-        this.state = state;
-    }
-    public State state(){
-        return this.state;
-    }
 
     @Override
     public boolean sameStateAs(SwitchState other) {
-        return this.sameIdentityAs(other) && this.sameValueAs(other);
+        return other == null ? false : this.state == other.state();
     }
 
     @Override
-    public boolean sameIdentityAs(SwitchState other) {
-        if(this == other || this.deviceId.sameIdentityAs(other.deviceId))
-            return true;
-        return false;
-    }
-
-    @Override
-    public boolean sameValueAs(SwitchState other) {
-        if(this.state == other.state())
-            return true;
-        return false;
+    public boolean reconfirmeState(SwitchState other, int seconds) {
+        return Math.abs(this.timestamp - other.timestamp())/1000 < seconds;
     }
 }

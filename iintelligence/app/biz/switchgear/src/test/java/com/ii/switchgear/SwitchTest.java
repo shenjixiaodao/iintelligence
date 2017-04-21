@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,7 +29,7 @@ public class SwitchTest {
            @Override
            public Switch getSwitch() {
                return new Switch(new DeviceId("111111"),
-                       new SwitchState(SwitchState.State.ON, System.currentTimeMillis()));
+                       new SwitchState(SwitchState.State.On, System.currentTimeMillis()));
            }
 
            @Override

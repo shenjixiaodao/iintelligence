@@ -1,13 +1,9 @@
 package com.ii.biz.AyncContinuation;
 
-import com.ect.common.error.ErrorCode;
 import com.ect.common.error.Result;
-import com.ect.common.error.constant.ErrorLevel;
-import com.ect.common.error.constant.ErrorType;
 import com.ii.biz.Switch.ISwitchService;
 import com.ii.biz.common.SwitchHandlerHolder;
 import com.ii.biz.common.error.ResultAssembler;
-import com.ii.domain.event.SwitchStateChangedEvent;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.service.SwitchHandlerService;
 import com.ii.domain.switchgear.Switch;
@@ -15,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
-import com.ii.biz.event.processor.SwitchStateEventProcessor;
 
 /**
  * Created by liyou on 17/4/17.

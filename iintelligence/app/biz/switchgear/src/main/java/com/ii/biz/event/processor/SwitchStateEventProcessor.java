@@ -4,6 +4,7 @@ import com.ect.common.error.Result;
 import com.google.common.eventbus.Subscribe;
 import com.ii.biz.common.SwitchHandlerHolder;
 import com.ii.biz.common.UserSwitchHandlerHolder;
+import com.ii.biz.common.error.ResultAssembler;
 import com.ii.domain.event.ChangeSwitchStateOKEvent;
 import com.ii.domain.event.SwitchStateChangedEvent;
 import com.ii.domain.handler.SwitchHandler;
@@ -40,8 +41,8 @@ public class SwitchStateEventProcessor {
             }
         } else {
             UserSwitchHandler userHandler = UserSwitchHandlerHolder.getHolder().fetchHandler(currentSwitch.deviceId());
-            result.setSuccess(false);
-            //todo 没有可处理该even的 handler, 设置响应用户异常结果
+            ResultAssembler.makeErrorResult(result, "device_exception");
+            //没有可处理该even的 handler, 需要检查设备和系统的连接状态
             //result.setErrorContext();
             userHandler.resultReadyEvent(result);
         }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/trading")
-@Api(value = "trading", description = "交易相关接口")
+@Api(value = "example", description = "示例相关接口")
 public class ExampleApiController {
     private final static Logger  logger = LoggerFactory.getLogger(ExampleApiController.class);
 

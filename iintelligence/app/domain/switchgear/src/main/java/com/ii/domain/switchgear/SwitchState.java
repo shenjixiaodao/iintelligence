@@ -2,6 +2,8 @@ package com.ii.domain.switchgear;
 
 import com.ii.domain.base.State;
 
+import java.util.Objects;
+
 /**
  * Created by liyou on 17/4/20.
  */
@@ -24,11 +26,23 @@ public class SwitchState implements State<SwitchState> {
     }
 
     public enum State{
-        ON("打开"), OFF("关闭");
+
+        On("打开"), Off("关闭"), Unknown("未知");
+
         private String text;
+
         State(String text){
             this.text = text;
         }
+
+        public static State codeOf(String name){
+            for(State state : State.values()){
+                if(Objects.equals(state.toString(), name))
+                    return state;
+            }
+            return Unknown;
+        }
+
         public String getText(){
             return this.text;
         }

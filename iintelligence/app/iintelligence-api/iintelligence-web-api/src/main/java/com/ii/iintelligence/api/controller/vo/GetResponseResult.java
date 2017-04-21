@@ -15,9 +15,9 @@ import java.util.Properties;
  */
 public class GetResponseResult extends WebResult {
     /**
-     * OK("成功"), FAILED("失败"), UNKNOWN("未明"), CREATED("初创")
+     * OK("成功"), FAILED("失败"), Unknown("未明"), CREATED("初创")
      */
-    @ApiModelProperty(value = "{OK(\"成功\"), FAILED(\"失败\"), UNKNOWN(\"未明\"), CREATED(\"初创\")}")
+    @ApiModelProperty(value = "{OK(\"成功\"), FAILED(\"失败\"), Unknown(\"未明\"), CREATED(\"初创\")}")
     private String status;
     @ApiModelProperty(value = "错误码")
     private String code;

@@ -32,7 +32,7 @@ public class SwitchAyncContinuationService implements SwitchHandlerService{
         executor.submit(new Runnable() {
             @Override
             public void run() {
-            /**
+            /** fixme 考虑实时性问题，是否不需要做持久化存储
              * 1, 设备请求过来的状态和数据库中记录不一致，说明设备状态发生了转换，修正数据库记录
              * 2, 状态不变，将该handler放入队列，等待状态改变事件触发
              */

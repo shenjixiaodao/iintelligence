@@ -1,17 +1,14 @@
 package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
-import com.ii.biz.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.AyncContinuation.UserAyncContinuationService;
-import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.handler.UserSwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
+import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.continuation.ContinuationSupport;
 import org.slf4j.Logger;
@@ -25,13 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value = "/switch")
 @Api(value = "user", description = "开关设备用户控制相关接口")
-public class UserSwitchController {
-    private final static Logger  logger = LoggerFactory.getLogger(UserSwitchController.class);
+public class SwitchUserController {
+    private final static Logger  logger = LoggerFactory.getLogger(SwitchUserController.class);
 
     @Autowired
     private UserAyncContinuationService syncContinuationService;
@@ -78,6 +76,24 @@ public class UserSwitchController {
         }
 
         return switchResult;
+    }
+
+    @ApiOperation(value = "查询设备信息", response = SwitchListResult.class, httpMethod = "GET")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "uid", dataType = "string", required = true, value = "交易单ID")})
+    @ResponseBody
+    @RequestMapping(value = "/getSwitches", method = GET)
+    public SwitchListResult getSwitches(String uid){
+        if(logger.isInfoEnabled()) {
+            logger.info("查询设备信息， uid : {}",uid);
+        }
+
+        SwitchListResult switchListResult = new SwitchListResult();
+
+        if(logger.isInfoEnabled()) {
+            logger.info("查询设备信息返回 : {}", switchListResult.toString());
+        }
+
+        return switchListResult;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.ii.data.user.repository;
 
 import com.ii.data.user.mapper.UserDeviceMapper;
+import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.repository.UserDeviceRepository;
 import com.ii.domain.user.UserDevice;
@@ -39,7 +40,10 @@ public class UserDeviceRepoitoryImpl implements UserDeviceRepository{
     }
 
     @Override
-    public void update(UserDevice userDevice) {
-        userDeviceMapper.update(userDevice);
+    public void updateDeviceStatus(DeviceId deviceId, UserDevice.DeviceStatus status) {
+        Map<String, String> map = new HashMap<>();
+        map.put("deviceId",deviceId.id());
+        map.put("status", status.toString());
+        userDeviceMapper.updateDeviceStatus(map);
     }
 }

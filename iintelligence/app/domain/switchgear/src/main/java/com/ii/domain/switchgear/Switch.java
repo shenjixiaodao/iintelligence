@@ -9,9 +9,9 @@ public class Switch extends Device {
 
     private SwitchStatus status;
 
-    public Switch(DeviceId deviceId, SwitchStatus state) {
+    public Switch(DeviceId deviceId, SwitchStatus status) {
         super(deviceId, DeviceType.Switch);
-        this.status = state;
+        this.status = status;
     }
 
     public void status(SwitchStatus state){

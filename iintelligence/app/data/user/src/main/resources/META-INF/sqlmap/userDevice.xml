@@ -39,12 +39,12 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.ii.domain.user.UserDevice">
+    <update id="updateDeviceStatus" parameterType="Map">
         UPDATE `ii_user_device`
         SET
             `device_status` = #{status},
             `gmt_modified` = now()
-        WHERE `device_id` = #{device.deviceId.id}
+        WHERE `device_id` = #{deviceId}
     </update>
 
 </mapper>

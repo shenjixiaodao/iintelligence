@@ -12,7 +12,7 @@ public class SwitchStatus implements Status<SwitchStatus> {
     private final Status status;
     private final Long timestamp;
 
-    public SwitchStatus(Status state, Long timestamp) {
+    public SwitchStatus(SwitchStatus.Status state, Long timestamp) {
         this.status = state;
         this.timestamp = timestamp;
     }

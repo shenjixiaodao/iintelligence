@@ -1,5 +1,6 @@
 package com.ii.domain.repository;
 
+import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
 
@@ -28,6 +29,6 @@ public interface UserDeviceRepository {
 
     void add(UserDevice userDevice);
 
-    void update(UserDevice userDevice);
+    void updateDeviceStatus(DeviceId deviceId, UserDevice.DeviceStatus status);
 
 }

@@ -12,7 +12,7 @@ public interface UserDeviceMapper {
 
     void add(UserDevice userDevice);
 
-    void update(UserDevice userDevice);
+    void updateDeviceStatus(Map map);
 
     List<UserDevice> find(Map map);
 

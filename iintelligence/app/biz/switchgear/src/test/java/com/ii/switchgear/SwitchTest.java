@@ -4,6 +4,7 @@ package com.ii.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
+import com.ii.biz.switchgear.service.ISwitchService;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
@@ -23,8 +24,11 @@ public class SwitchTest {
     @Autowired
     private SwitchAyncContinuationService switchContinuationService;
 
+    @Autowired
+    private ISwitchService switchService;
+
     @Test
-    public void test(){
+    public void registerStatusChangedHandler(){
        switchContinuationService.registerStatusChangedHandler(new SwitchHandler() {
            @Override
            public Switch getSwitch() {
@@ -37,6 +41,14 @@ public class SwitchTest {
                 System.out.println(result.toString());
            }
        });
+    }
+
+    @Test
+    public void registerSwitch(){
+        DeviceId deviceId = new DeviceId("Switch20170425142755100156");
+        SwitchStatus status = new SwitchStatus(SwitchStatus.Status.On, System.currentTimeMillis());
+        Switch s = new Switch(deviceId, status);
+        switchService.registerSwitch(s);
     }
 
 }

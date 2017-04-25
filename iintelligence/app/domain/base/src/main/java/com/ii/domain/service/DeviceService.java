@@ -9,6 +9,10 @@ import com.ii.domain.base.DeviceType;
  */
 public interface DeviceService<T> {
 
+    /**
+     * 完成设备激活、基本信息登记等
+     * @param device
+     */
     void registerDevice(T device);
 
     DeviceId fetchDeviceId(DeviceType type, String uid);

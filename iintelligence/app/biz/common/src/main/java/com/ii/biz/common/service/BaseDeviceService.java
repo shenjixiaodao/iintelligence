@@ -5,7 +5,10 @@ import com.ii.biz.common.util.IdGenerator;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
+import com.ii.domain.repository.UserDeviceRepository;
 import com.ii.domain.service.DeviceService;
+import com.ii.domain.user.UserDevice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,9 +17,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class BaseDeviceService implements DeviceService<Device> {
 
+    @Autowired
+    private UserDeviceRepository userDeviceRepository;
+
     @Override
     public void registerDevice(Device device) {
-        //todo 注册设备
+        //更新用户设备绑定状态，表明设备已激活
+        userDeviceRepository.updateDeviceStatus(device.deviceId(), UserDevice.DeviceStatus.Bind);
+        //fixme 注册设备基本信息
     }
 
     @Override

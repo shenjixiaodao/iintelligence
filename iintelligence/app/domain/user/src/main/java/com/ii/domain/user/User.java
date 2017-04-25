@@ -8,7 +8,7 @@ import com.ii.domain.base.DeviceType;
 public class User {
 
     private UserId userId;
-
+    private String name;
 
     public int deviceLimit(DeviceType deviceType){
         //todo 设备数约束

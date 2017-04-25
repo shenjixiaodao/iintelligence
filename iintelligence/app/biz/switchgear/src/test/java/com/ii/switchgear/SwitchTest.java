@@ -3,11 +3,11 @@ package com.ii.switchgear;
 
 
 import com.ect.common.error.Result;
-import com.ii.biz.AyncContinuation.SwitchAyncContinuationService;
+import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
-import com.ii.domain.switchgear.SwitchState;
+import com.ii.domain.switchgear.SwitchStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ public class SwitchTest {
 
     @Test
     public void test(){
-       switchContinuationService.registerStateChangedHandler(new SwitchHandler() {
+       switchContinuationService.registerStatusChangedHandler(new SwitchHandler() {
            @Override
            public Switch getSwitch() {
                return new Switch(new DeviceId("111111"),
-                       new SwitchState(SwitchState.State.On, System.currentTimeMillis()));
+                       new SwitchStatus(SwitchStatus.Status.On, System.currentTimeMillis()));
            }
 
            @Override

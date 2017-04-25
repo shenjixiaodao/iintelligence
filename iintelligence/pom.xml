@@ -26,7 +26,10 @@
         <apache.lang.version>2.6</apache.lang.version>
         <jsr.version>3.0.1</jsr.version>
         <spring.version>4.3.2.RELEASE</spring.version>
+        <mybatis-spring.version>1.3.0</mybatis-spring.version>
+        <mybatis.version>3.4.1</mybatis.version>
         <druid.version>1.0.9</druid.version>
+        <mysql-connector-java.version>5.1.40</mysql-connector-java.version>
         <hessian.version>4.0.38</hessian.version>
         <slf4j.version>1.7.20</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
@@ -41,15 +44,13 @@
         <maven-source-plugin.version>3.0.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
-        <!--freemarker       -->
-        <freemarker.version>2.3.25-incubating</freemarker.version>
-
         <cif-userinfo.version>1.0.0</cif-userinfo.version>
         <!--Html解析-->
         <jsoup.version>1.9.2</jsoup.version>
         <swagger.version>2.5.0</swagger.version>
         <cxf.version>3.1.6</cxf.version>
         <guava.version>19.0</guava.version>
+        <jsr305.version>3.0.1</jsr305.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +69,21 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.caucho</groupId>
@@ -95,15 +111,15 @@
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>ch.inftec.ju</groupId>
-            <artifactId>ju-ee</artifactId>
-            <version>6.0-2</version>
-        </dependency>-->
 
         <!--Internal common jars-->
         <dependency>
@@ -168,41 +184,12 @@
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- aop start -->
-        <!--<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring.version}</version>
-        </dependency>-->
-        <!-- aop end -->
-
-        <!--<dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>-->
-
-        <!--<dependency>
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>${hessian.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -262,29 +249,10 @@
             <version>2.5</version>
         </dependency>
 
-
-        <!-- freemarker依赖 -->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>${freemarker.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ect.fiss</groupId>
-            <artifactId>facade-product</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ect.cif</groupId>
-            <artifactId>cif-facade-userinfo</artifactId>
-            <version>${cif-userinfo.version}</version>
         </dependency>
 
         <dependency>

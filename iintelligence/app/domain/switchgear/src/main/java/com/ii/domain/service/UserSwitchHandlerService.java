@@ -7,5 +7,5 @@ import com.ii.domain.handler.UserSwitchHandler;
  */
 public interface UserSwitchHandlerService extends UserDeviceHandlerService<UserSwitchHandler> {
     @Override
-    void registerStateCommandHandler(final UserSwitchHandler handler);
+    void registerStatusCommandHandler(final UserSwitchHandler handler);
 }

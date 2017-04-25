@@ -8,5 +8,5 @@ import com.ii.domain.handler.SwitchHandler;
 public interface SwitchHandlerService extends DeviceHandlerService<SwitchHandler> {
 
     @Override
-    void registerStateChangedHandler(final SwitchHandler handler);
+    void registerStatusChangedHandler(final SwitchHandler handler);
 }

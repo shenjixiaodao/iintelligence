@@ -14,6 +14,7 @@
     <modules>
         <module>base</module>
         <module>switchgear</module>
+        <module>user</module>
     </modules>
 
 

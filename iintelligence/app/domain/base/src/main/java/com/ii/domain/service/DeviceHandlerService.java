@@ -5,6 +5,6 @@ package com.ii.domain.service;
  */
 public interface DeviceHandlerService<T> {
 
-    void registerStateChangedHandler(final T handler);
+    void registerStatusChangedHandler(final T handler);
 
 }

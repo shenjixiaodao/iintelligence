@@ -1,6 +1,5 @@
 package com.ii.iintelligence.api.controller.vo.switchgear;
 
-import com.ii.iintelligence.api.controller.result.WebResult;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -11,7 +10,7 @@ public class SwitchVo{
     @ApiModelProperty(value = "设备ID")
     private String deviceId;
     @ApiModelProperty(value = "设备状态")
-    private String state;
+    private String status;
 
     public String getDeviceId() {
         return deviceId;
@@ -21,19 +20,19 @@ public class SwitchVo{
         this.deviceId = deviceId;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "SwitchResult{" +
                 "deviceId='" + deviceId + '\'' +
-                ", state='" + state + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

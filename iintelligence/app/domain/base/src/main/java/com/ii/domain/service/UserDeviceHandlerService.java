@@ -9,6 +9,6 @@ public interface UserDeviceHandlerService<T> {
      * 用户请求触发设备更改状态指令
      * @param handler
      */
-    void registerStateCommandHandler(final T handler);
+    void registerStatusCommandHandler(final T handler);
 
 }

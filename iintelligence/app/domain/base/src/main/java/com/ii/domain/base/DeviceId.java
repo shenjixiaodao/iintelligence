@@ -7,10 +7,10 @@ import java.util.Objects;
  */
 public class DeviceId implements Entity<DeviceId>{
 
-    private String deviceId;
+    private String id;
 
-    public DeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public DeviceId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -20,19 +20,30 @@ public class DeviceId implements Entity<DeviceId>{
 
         DeviceId deviceId1 = (DeviceId) o;
 
-        return deviceId.equals(deviceId1.deviceId);
+        return id.equals(deviceId1.id);
 
+    }
+
+    public String id(){
+        return this.id;
+    }
+    public void id(String id){
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
-        return deviceId.hashCode();
+        return id.hashCode();
     }
 
     @Override
     public boolean sameIdentityAs(DeviceId other) {
-        if(this == other || Objects.equals(deviceId, other.deviceId))
+        if(this == other || Objects.equals(id, other.id()))
             return true;
         return false;
+    }
+
+    public DeviceId() {
+        //for ORM
     }
 }

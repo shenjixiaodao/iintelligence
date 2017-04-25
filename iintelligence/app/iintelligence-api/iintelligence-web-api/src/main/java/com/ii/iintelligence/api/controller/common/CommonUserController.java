@@ -1,11 +1,10 @@
 package com.ii.iintelligence.api.controller.common;
 
-import com.ii.biz.base.BaseDeviceService;
+import com.ii.biz.common.service.BaseDeviceService;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
 import com.ii.iintelligence.api.controller.constatns.WebConstants;
 import com.ii.iintelligence.api.controller.vo.common.DeviceResult;
-import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

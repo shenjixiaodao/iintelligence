@@ -7,23 +7,23 @@ import com.ii.domain.base.*;
  */
 public class Switch extends Device {
 
-    private SwitchState state;
+    private SwitchStatus status;
 
-    public Switch(DeviceId deviceId, SwitchState state) {
+    public Switch(DeviceId deviceId, SwitchStatus state) {
         super(deviceId, DeviceType.Switch);
-        this.state = state;
+        this.status = state;
     }
 
-    public void state(SwitchState state){
-        this.state = state;
+    public void status(SwitchStatus state){
+        this.status = state;
     }
-    public SwitchState state(){
-        return this.state;
+    public SwitchStatus status(){
+        return this.status;
     }
 
     public boolean sameStateAs(Switch other) {
         return other == null ? false :
-                this.sameIdentityAs(other) && this.state().sameStateAs(other.state());
+                this.sameIdentityAs(other) && this.status().sameStatusAs(other.status());
     }
 
 }

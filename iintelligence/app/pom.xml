@@ -18,6 +18,7 @@
         <module>iintelligence-api</module>
         <module>domain</module>
         <module>biz</module>
+        <module>data</module>
     </modules>
 
 

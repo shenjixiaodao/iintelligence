@@ -1,7 +1,7 @@
 package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
-import com.ii.biz.AyncContinuation.SwitchAyncContinuationService;
+import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
@@ -55,7 +55,7 @@ public class SwitchController {
             // suspend the request
             continuation.suspend(); // always suspend before registration
 
-            syncContinuationService.registerStateChangedHandler(new SwitchHandler()
+            syncContinuationService.registerStatusChangedHandler(new SwitchHandler()
             {
                 @Override
                 public Switch getSwitch() {

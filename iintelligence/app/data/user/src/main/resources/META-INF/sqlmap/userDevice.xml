@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ii.data.user.mapper.UserDeviceMapper">
+
+    <resultMap id="findRM" type="com.ii.domain.user.UserDevice">
+        <id property="userId.uid" column="uid" />
+        <result property="device.deviceId.id" column="device_id" />
+        <result property="device.type" column="device_type"/>
+        <result property="status" column="device_status"/>
+    </resultMap>
+
+    <select id="find" parameterType="java.util.Map" resultMap="findRM">
+        SELECT
+          uid,
+          device_id,
+          device_type,
+          device_status
+        FROM ii_user_device
+        WHERE device_type = #{type} AND uid = #{uid}
+    </select>
+
+    <insert id="add" parameterType="com.ii.domain.user.UserDevice">
+        INSERT INTO `ii_user_device`(
+            `uid`,
+            `device_id`,
+            `device_type`,
+            `device_status`,
+            `gmt_create`,
+            `gmt_modified`
+        )
+        VALUES(
+            #{userId.uid},
+            #{device.deviceId.id},
+            #{device.type},
+            #{status},
+            now(),
+            now()
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ii.domain.user.UserDevice">
+        UPDATE `ii_user_device`
+        SET
+            `device_status` = #{status},
+            `gmt_modified` = now()
+        WHERE `device_id` = #{device.deviceId.id}
+    </update>
+
+</mapper>

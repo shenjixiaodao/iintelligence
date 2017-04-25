@@ -4,7 +4,7 @@ import com.ect.common.error.CommonError;
 import com.ect.common.error.Result;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.switchgear.Switch;
-import com.ii.domain.switchgear.SwitchState;
+import com.ii.domain.switchgear.SwitchStatus;
 import com.ii.iintelligence.api.controller.constatns.WebConstants;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo;
@@ -16,8 +16,8 @@ public class SwitchAssembler {
 
     public static Switch voToSwitch(SwitchVo vo){
         DeviceId deviceId = new DeviceId(vo.getDeviceId());
-        SwitchState state = new SwitchState(SwitchState.State.codeOf(vo.getState()), System.currentTimeMillis());
-        return new Switch(deviceId, state);
+        SwitchStatus status = new SwitchStatus(SwitchStatus.Status.codeOf(vo.getStatus()), System.currentTimeMillis());
+        return new Switch(deviceId, status);
     }
 
     public static SwitchResult switchToWebResult(Result<Switch> s) {
@@ -38,7 +38,7 @@ public class SwitchAssembler {
     public static SwitchVo switchToVo(Switch s) {
         SwitchVo vo = new SwitchVo();
         vo.setDeviceId(s.deviceId().toString());
-        vo.setState(s.state().toString());
+        vo.setStatus(s.status().toString());
         return vo;
     }
 

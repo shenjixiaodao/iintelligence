@@ -3,7 +3,7 @@ package com.ii.domain.base;
 /**
  * Created by liyou on 17/4/22.
  */
-public abstract class Device implements Entity<Device> {
+public class Device implements Entity<Device> {
     private DeviceId deviceId;
     private DeviceType type;
 
@@ -33,4 +33,7 @@ public abstract class Device implements Entity<Device> {
         return false;
     }
 
+    public Device() {
+        //for ORM
+    }
 }

@@ -2,6 +2,8 @@ package com.ii.biz.user.service.impl;
 
 import com.ii.biz.common.service.BaseDeviceService;
 import com.ii.biz.user.service.IUserDeviceService;
+import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
@@ -27,6 +29,9 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
     @Autowired
     private BaseDeviceService baseDeviceService;
 
+    @Autowired
+    private UserDeviceMapper userDeviceMapper;
+
     @Override
     public List<UserDevice> createUserDevice(String uid, DeviceType deviceType) {
         if(StringUtils.isEmpty(uid))
@@ -47,10 +52,17 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
         device.type(deviceType);
         DeviceId deviceId = baseDeviceService.fetchDeviceId(deviceType, uid);
         device.deviceId(deviceId);
-        UserDevice userDevice = new UserDevice(userId,device, UserDevice.DeviceStatus.Create);
+        UserDevice userDevice = new UserDevice(userId,device, UserDevice.DeviceStatus.Created);
         userDeviceRepository.add(userDevice);
         userDevices.add(userDevice);
 
         return userDevices;
+    }
+
+    @Override
+    public List<UserDevice> findUserDevice(UserDeviceCriteria criteria) {
+        if(StringUtils.isEmpty(criteria.getUid()))
+            throw new IllegalArgumentException("uid不允许为空");
+        return userDeviceMapper.find(criteria);
     }
 }

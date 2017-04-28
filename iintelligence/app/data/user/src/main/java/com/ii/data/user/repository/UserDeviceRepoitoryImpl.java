@@ -1,12 +1,14 @@
 package com.ii.data.user.repository;
 
 import com.ii.data.user.mapper.UserDeviceMapper;
+import com.ii.data.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.repository.UserDeviceRepository;
 import com.ii.domain.user.UserDevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +25,12 @@ public class UserDeviceRepoitoryImpl implements UserDeviceRepository{
 
     @Override
     public List<UserDevice> find(String uid, DeviceType type) {
-        Map<String, String> map = new HashMap<>();
-        map.put("uid",uid);
-        map.put("type", type.toString());
-        return userDeviceMapper.find(map);
+        if(StringUtils.isEmpty(uid))
+            throw new IllegalArgumentException("uid不允许为空");
+        UserDeviceCriteria criteria = new UserDeviceCriteria();
+        criteria.setUid(uid);
+        criteria.setDeviceType(type.toString());
+        return userDeviceMapper.find(criteria);
     }
 
     @Override

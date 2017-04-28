@@ -1,14 +1,13 @@
 package com.ii.iintelligence.api.controller.user;
 
 import com.ii.biz.user.service.IUserDeviceService;
-import com.ii.data.user.query.Entity.UserDeviceEntity;
+import com.ii.data.user.Entity.UserDeviceEntity;
 import com.ii.data.user.query.UserDeviceQueryManagement;
-import com.ii.data.user.query.criteria.UserDeviceCriteria;
+import com.ii.data.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
 import com.ii.iintelligence.api.controller.assembler.user.UserDeviceAssembler;
 import com.ii.iintelligence.api.controller.constatns.WebConstants;
-import com.ii.iintelligence.api.controller.vo.PostResponseResult;
 import com.ii.iintelligence.api.controller.vo.user.NewDeviceVo;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceCriteriaVo;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceListResult;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController

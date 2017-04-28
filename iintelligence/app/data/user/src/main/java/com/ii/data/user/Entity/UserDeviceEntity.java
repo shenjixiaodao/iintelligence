@@ -1,4 +1,4 @@
-package com.ii.data.user.query.Entity;
+package com.ii.data.user.Entity;
 
 /**
  * Created by liyou on 17/4/26.

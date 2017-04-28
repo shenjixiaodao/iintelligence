@@ -10,7 +10,7 @@
         <result property="status" column="device_status"/>
     </resultMap>
 
-    <select id="find" parameterType="java.util.Map" resultMap="findRM">
+    <select id="find" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="findRM">
         SELECT
           uid,
           device_id,
@@ -18,8 +18,11 @@
           device_status
         FROM ii_user_device
         WHERE uid = #{uid}
-        <if test="type != null">
-          AND device_type = #{type}
+        <if test="deviceType != null">
+          AND device_type = #{deviceType}
+        </if>
+        <if test="deviceStatus != null">
+            AND device_status = #{deviceStatus}
         </if>
     </select>
 
@@ -50,14 +53,14 @@
         WHERE `device_id` = #{deviceId}
     </update>
 
-    <resultMap id="queryUserDeviceRM" type="com.ii.data.user.query.Entity.UserDeviceEntity">
+    <resultMap id="queryUserDeviceRM" type="com.ii.data.user.Entity.UserDeviceEntity">
         <id property="uid" column="uid" />
         <result property="deviceId" column="device_id" />
         <result property="deviceType" column="device_type"/>
         <result property="deviceStatus" column="device_status"/>
     </resultMap>
 
-    <select id="queryUserDevice" parameterType="com.ii.data.user.query.criteria.UserDeviceCriteria"
+    <select id="queryUserDevice" parameterType="com.ii.data.user.criteria.UserDeviceCriteria"
             resultMap="queryUserDeviceRM">
         SELECT
         uid,
@@ -71,6 +74,9 @@
         </if>
         <if test="deviceType != null">
             AND device_type = #{deviceType}
+        </if>
+        <if test="deviceStatus != null">
+            AND device_status = #{deviceStatus}
         </if>
     </select>
 

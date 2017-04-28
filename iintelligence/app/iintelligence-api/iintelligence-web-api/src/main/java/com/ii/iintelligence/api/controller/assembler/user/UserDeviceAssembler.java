@@ -1,10 +1,9 @@
 package com.ii.iintelligence.api.controller.assembler.user;
 
-import com.ii.data.user.query.Entity.UserDeviceEntity;
-import com.ii.data.user.query.criteria.UserDeviceCriteria;
+import com.ii.data.user.Entity.UserDeviceEntity;
+import com.ii.data.user.criteria.UserDeviceCriteria;
 import com.ii.domain.user.UserDevice;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceCriteriaVo;
-import com.ii.iintelligence.api.controller.vo.user.UserDeviceListResult;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceVo;
 import org.springframework.beans.BeanUtils;
 

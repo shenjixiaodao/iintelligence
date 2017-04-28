@@ -1,8 +1,8 @@
 package com.ii.data.user.query;
 
 import com.ii.data.user.mapper.UserDeviceMapper;
-import com.ii.data.user.query.Entity.UserDeviceEntity;
-import com.ii.data.user.query.criteria.UserDeviceCriteria;
+import com.ii.data.user.Entity.UserDeviceEntity;
+import com.ii.data.user.criteria.UserDeviceCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

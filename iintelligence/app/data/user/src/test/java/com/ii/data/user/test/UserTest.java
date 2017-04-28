@@ -3,9 +3,11 @@ package com.ii.data.user.test;
 
 
 
-import com.ii.data.user.query.Entity.UserDeviceEntity;
+import com.ii.data.user.Entity.UserDeviceEntity;
+import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.data.user.query.UserDeviceQueryManagement;
-import com.ii.data.user.query.criteria.UserDeviceCriteria;
+import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.user.UserDevice;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,24 @@ public class UserTest {
     @Autowired
     private UserDeviceQueryManagement queryManagement;
 
+    @Autowired
+    private UserDeviceMapper userDeviceMapper;
+
     @Test
     public void queryUserDevice(){
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setUid("123456");
+        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
         List<UserDeviceEntity> list = queryManagement.queryUserDevice(criteria);
+        System.out.println(list);
+    }
+
+    @Test
+    public void find(){
+        UserDeviceCriteria criteria = new UserDeviceCriteria();
+        criteria.setUid("123456");
+        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
+        List<UserDevice> list = userDeviceMapper.find(criteria);
         System.out.println(list);
     }
 

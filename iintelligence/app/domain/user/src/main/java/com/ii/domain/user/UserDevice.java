@@ -20,7 +20,7 @@ public class UserDevice implements Entity<UserDevice>{
     }
 
     public enum DeviceStatus {
-        Create("创建"), Bind("绑定设备");
+        Created("创建"), Binding("绑定设备");
         private String text;
 
         DeviceStatus(String text){

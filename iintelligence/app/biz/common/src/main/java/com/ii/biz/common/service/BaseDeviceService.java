@@ -23,7 +23,7 @@ public class BaseDeviceService implements DeviceService<Device> {
     @Override
     public void registerDevice(Device device) {
         //更新用户设备绑定状态，表明设备已激活
-        userDeviceRepository.updateDeviceStatus(device.deviceId(), UserDevice.DeviceStatus.Bind);
+        userDeviceRepository.updateDeviceStatus(device.deviceId(), UserDevice.DeviceStatus.Binding);
         //fixme 注册设备基本信息
     }
 

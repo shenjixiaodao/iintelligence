@@ -20,6 +20,9 @@ import java.util.concurrent.*;
  */
 public class SwitchHandlerHolder implements ISwitchHandlerHolder{
 
+    /**
+     * todo: 在系统启动的时候，从持久化数据源，初始化{@param handlerMap}， 将已经和设备绑定的加载
+     */
     private static ConcurrentMap<DeviceId, BlockingQueue<Handler>> handlerMap = new ConcurrentHashMap<>();
 
     private static class SingletonHolder{
@@ -32,6 +35,11 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
 
     public static SwitchHandlerHolder getHolder(){
         return SingletonHolder.holder;
+    }
+
+    @Override
+    public Handler getHandler(DeviceId deviceId) {
+        return handlerMap.get(deviceId).peek();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.ii.data.user.mapper;
 
+import com.ii.data.user.query.Entity.UserDeviceEntity;
+import com.ii.data.user.query.criteria.UserDeviceCriteria;
 import com.ii.domain.user.UserDevice;
 
 import java.util.List;
@@ -16,4 +18,5 @@ public interface UserDeviceMapper {
 
     List<UserDevice> find(Map map);
 
+    List<UserDeviceEntity> queryUserDevice(UserDeviceCriteria criteria);
 }

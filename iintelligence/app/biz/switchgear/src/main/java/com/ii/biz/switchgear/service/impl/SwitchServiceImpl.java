@@ -7,6 +7,7 @@ import com.ii.domain.event.ChangeSwitchStatusOKEvent;
 import com.ii.domain.switchgear.Switch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by liyou on 17/4/18.
@@ -32,6 +33,7 @@ public class SwitchServiceImpl implements ISwitchService {
 
     }
 
+    @Transactional
     @Override
     public void registerSwitch(Switch s) {
         //注册基本设备信息

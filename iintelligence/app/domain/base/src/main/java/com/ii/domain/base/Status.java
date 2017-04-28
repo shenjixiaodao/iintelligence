@@ -11,6 +11,6 @@ public interface Status<T> {
    * @param seconds
    * @return
    */
-  boolean reconfirmeStatus(T other, int seconds);
+  boolean reconfirmStatus(T other, int seconds);
 
 }

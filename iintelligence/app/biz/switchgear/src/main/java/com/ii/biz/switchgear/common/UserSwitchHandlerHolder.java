@@ -5,14 +5,14 @@ import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.event.ChangeSwitchStatusOKEvent;
 import com.ii.domain.handler.IUserSwitchHandlerHolder;
-import com.ii.domain.handler.UserSwitchHandler;
+import com.ii.domain.handler.Handler;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 
 /**
- * 全局共享的 handler 资源对象，该holder持有的handler{@link UserSwitchHandler}集合都是等待设备
+ * 全局共享的 handler 资源对象，该holder持有的handler{@link Handler}集合都是等待设备
  * 发起的event{@link ChangeSwitchStatusOKEvent}。
  * 1，如果该handler已处理event{@link ChangeSwitchStatusOKEvent},则从队里中移除该handler；
  * 2，所有设备请求过来的handler都会按策略加入到该holder集合中{@link SwitchAyncContinuationService}；
@@ -21,15 +21,15 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class UserSwitchHandlerHolder implements IUserSwitchHandlerHolder {
 
-    private static ConcurrentMap<DeviceId, UserSwitchHandler> handlerMap = new ConcurrentHashMap<>();
+    private static ConcurrentMap<DeviceId, Handler> handlerMap = new ConcurrentHashMap<>();
 
     @Override
-    public UserSwitchHandler putHandler(DeviceId deviceId, UserSwitchHandler handler) {
+    public Handler putHandler(DeviceId deviceId, Handler handler) {
         return handlerMap.put(deviceId, handler);
     }
 
     @Override
-    public UserSwitchHandler fetchHandler(DeviceId deviceId) {
+    public Handler fetchHandler(DeviceId deviceId) {
         return handlerMap.remove(deviceId);
     }
 

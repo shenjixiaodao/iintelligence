@@ -6,7 +6,8 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan
-            base-package="com.ii.data.user.repository"/>
+            base-package="com.ii.data.user.repository
+                          com.ii.data.user.query"/>
 
     <!-- 配置自动扫描mapper并管理 -->
     <bean id="tradingMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

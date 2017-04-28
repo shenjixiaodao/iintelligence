@@ -2,7 +2,9 @@ package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.UserAyncContinuationService;
+import com.ii.domain.handler.AbstractUserSwitchesHandler;
 import com.ii.domain.handler.UserSwitchHandler;
+import com.ii.domain.handler.UserSwitchesHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -34,10 +38,11 @@ public class SwitchUserController {
     @Autowired
     private UserAyncContinuationService syncContinuationService;
 
-    @ApiOperation(value = "请求状态改变", response = SwitchResult.class, httpMethod = "POST")
+    @ApiOperation(value = "请求改变开关状态", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/changeState", method = POST)
-    public SwitchResult waitStateChanged(@ApiParam(value = "开关", required = true) @RequestBody final SwitchVo switchVo,
+    @RequestMapping(value = "/changeSwitchStatus", method = POST)
+    public SwitchResult changeSwitchStatus(
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final SwitchVo switchVo,
                                               HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
             logger.info("改变开关状态， switchVo : {}",switchVo.toString());
@@ -78,8 +83,50 @@ public class SwitchUserController {
         return switchResult;
     }
 
+    @ApiOperation(value = "请求改变分组开关状态", response = SwitchResult.class, httpMethod = "POST")
+    @ResponseBody
+    @RequestMapping(value = "/changeSwitchesStatus", method = POST)
+    public SwitchListResult changeSwitchesStatus(
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
+                                             HttpServletResponse response, HttpServletRequest request){
+        if(logger.isInfoEnabled()) {
+            logger.info("改变开关状态， switchVo : {}",switchVos.toString());
+        }
+        // if we need to get asynchronous results
+        Result<List<Switch>> result = (Result) request.getAttribute("result");
+        if (result == null)
+        {
+            final Continuation continuation = ContinuationSupport.getContinuation(request);
+            // if this is not a timeout
+            if (continuation.isExpired())
+            {
+                //todo 超时处理
+                return null;
+            }
+            // suspend the request
+            continuation.suspend(); // always suspend before registration
+            syncContinuationService.registerStatusCommandHandler(
+                    new AbstractUserSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
+                @Override
+                public void doResultReadyEvent(Result result) {
+                    continuation.setAttribute("result",result);
+                    continuation.resume();
+                }
+            });
+            return null; // or continuation.undispatch();
+        }
+
+        SwitchListResult switchResult = SwitchAssembler.switchesToWebListResult(result);
+
+        if(logger.isInfoEnabled()) {
+            logger.info("开关等待状态改变: {}", switchResult.toString());
+        }
+
+        return switchResult;
+    }
+
     @ApiOperation(value = "查询设备信息", response = SwitchListResult.class, httpMethod = "GET")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "uid", dataType = "string", required = true, value = "交易单ID")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "uid", dataType = "string", required = true, value = "用户ID")})
     @ResponseBody
     @RequestMapping(value = "/getSwitches", method = GET)
     public SwitchListResult getSwitches(String uid){

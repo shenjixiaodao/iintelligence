@@ -17,7 +17,10 @@
           device_type,
           device_status
         FROM ii_user_device
-        WHERE device_type = #{type} AND uid = #{uid}
+        WHERE uid = #{uid}
+        <if test="type != null">
+          AND device_type = #{type}
+        </if>
     </select>
 
     <insert id="add" parameterType="com.ii.domain.user.UserDevice">
@@ -46,5 +49,29 @@
             `gmt_modified` = now()
         WHERE `device_id` = #{deviceId}
     </update>
+
+    <resultMap id="queryUserDeviceRM" type="com.ii.data.user.query.Entity.UserDeviceEntity">
+        <id property="uid" column="uid" />
+        <result property="deviceId" column="device_id" />
+        <result property="deviceType" column="device_type"/>
+        <result property="deviceStatus" column="device_status"/>
+    </resultMap>
+
+    <select id="queryUserDevice" parameterType="com.ii.data.user.query.criteria.UserDeviceCriteria"
+            resultMap="queryUserDeviceRM">
+        SELECT
+        uid,
+        device_id,
+        device_type,
+        device_status
+        FROM ii_user_device
+        WHERE 1=1
+        <if test="uid != null">
+            AND uid = #{uid}
+        </if>
+        <if test="deviceType != null">
+            AND device_type = #{deviceType}
+        </if>
+    </select>
 
 </mapper>

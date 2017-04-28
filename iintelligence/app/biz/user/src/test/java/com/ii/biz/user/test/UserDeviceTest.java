@@ -1,4 +1,4 @@
-package com.ii.user.test;
+package com.ii.biz.user.test;
 
 
 

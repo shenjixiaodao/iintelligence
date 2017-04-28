@@ -4,6 +4,7 @@ import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.event.SwitchStatusChangedEvent;
+import com.ii.domain.handler.Handler;
 import com.ii.domain.handler.ISwitchHandlerHolder;
 import com.ii.domain.handler.SwitchHandler;
 
@@ -19,7 +20,7 @@ import java.util.concurrent.*;
  */
 public class SwitchHandlerHolder implements ISwitchHandlerHolder{
 
-    private static ConcurrentMap<DeviceId, BlockingQueue<SwitchHandler>> handlerMap = new ConcurrentHashMap<>();
+    private static ConcurrentMap<DeviceId, BlockingQueue<Handler>> handlerMap = new ConcurrentHashMap<>();
 
     private static class SingletonHolder{
         static SwitchHandlerHolder holder = new SwitchHandlerHolder();
@@ -34,14 +35,14 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
     }
 
     @Override
-    public  SwitchHandler putHandler(DeviceId deviceId, SwitchHandler handler){
-        BlockingQueue<SwitchHandler> queue = handlerMap.get(deviceId);
+    public  Handler putHandler(DeviceId deviceId, Handler handler){
+        BlockingQueue<Handler> queue = handlerMap.get(deviceId);
         if(null == queue) {
             queue = new ArrayBlockingQueue<>(1);
             handlerMap.putIfAbsent(deviceId,queue);
             queue = handlerMap.get(deviceId);//保证一定拿到同一个BlockingQueue实例
         }
-        SwitchHandler oldHandler = null;
+        Handler oldHandler = null;
         synchronized (queue) {
             if (!queue.isEmpty()) {
                 oldHandler = queue.remove();
@@ -52,13 +53,13 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
     }
 
     @Override
-    public  SwitchHandler fetchHandler(DeviceId deviceId) {
+    public  Handler fetchHandler(DeviceId deviceId) {
         return fetchHandler(deviceId, 10, TimeUnit.SECONDS);
     }
 
-    public  SwitchHandler fetchHandler(DeviceId deviceId, long time, TimeUnit timeUnit) {
-        BlockingQueue<SwitchHandler> queue = handlerMap.get(deviceId);
-        SwitchHandler handler = null;
+    public  Handler fetchHandler(DeviceId deviceId, long time, TimeUnit timeUnit) {
+        BlockingQueue<Handler> queue = handlerMap.get(deviceId);
+        Handler handler = null;
         try {
             handler = queue.poll(time, timeUnit);
         } catch (InterruptedException e) {

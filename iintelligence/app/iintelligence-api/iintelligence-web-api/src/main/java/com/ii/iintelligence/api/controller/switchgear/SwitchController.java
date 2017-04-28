@@ -2,9 +2,11 @@ package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
+import com.ii.domain.handler.AbstractSwitchesHandler;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
+import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo;
 import io.swagger.annotations.*;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -32,11 +36,12 @@ public class SwitchController {
 
     @ApiOperation(value = "请求状态改变", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/waitStateChanged", method = POST)
-    public SwitchResult waitStateChanged(@ApiParam(value = "开关", required = true) @RequestBody final SwitchVo switchVo,
+    @RequestMapping(value = "/waitSwitchStatusChanged", method = POST)
+    public SwitchResult waitSwitchStatusChanged(
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final SwitchVo switchVo,
                                               HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("开关等待状态改变， switchVo : {}",switchVo.toString());
+            logger.info("开关等待状态改变， switchVo : {}",switchVo);
         }
 
         // if we need to get asynchronous results
@@ -44,14 +49,12 @@ public class SwitchController {
         if (result == null)
         {
             final Continuation continuation = ContinuationSupport.getContinuation(request);
-
             // if this is not a timeout
             if (continuation.isExpired())
             {
                 //todo 超时处理
                 return null;
             }
-
             // suspend the request
             continuation.suspend(); // always suspend before registration
 
@@ -61,7 +64,6 @@ public class SwitchController {
                 public Switch getSwitch() {
                     return SwitchAssembler.voToSwitch(switchVo);
                 }
-
                 @Override
                 public void resultReadyEvent(Result result) {
                     continuation.setAttribute("result",result);
@@ -72,9 +74,49 @@ public class SwitchController {
         }
 
         SwitchResult switchResult = SwitchAssembler.switchToWebResult(result);
-
         if(logger.isInfoEnabled()) {
             logger.info("开关等待状态改变: {}", switchResult.toString());
+        }
+        return switchResult;
+    }
+
+    @ApiOperation(value = "请求分组开关状态改变", response = SwitchResult.class, httpMethod = "POST")
+    @ResponseBody
+    @RequestMapping(value = "/waitSwitchesStatusChanged", method = POST)
+    public SwitchListResult waitSwitchesStatusChanged(
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
+                                                 HttpServletResponse response, HttpServletRequest request){
+        if(logger.isInfoEnabled()) {
+            logger.info("分组开关等待状态改变，  {}",switchVos.toString());
+        }
+        // if we need to get asynchronous results
+        Result<List<Switch>> result = (Result) request.getAttribute("result");
+        if (result == null)
+        {
+            final Continuation continuation = ContinuationSupport.getContinuation(request);
+            // if this is not a timeout
+            if (continuation.isExpired())
+            {
+                //todo 超时处理
+                return null;
+            }
+            // suspend the request SwitchAssembler.vosToSwitches(switchVos)
+            continuation.suspend(); // always suspend before registration
+            syncContinuationService.registerStatusChangedHandler(
+                    new AbstractSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
+                @Override
+                public void doResultReadyEvent(Result result) {
+                    continuation.setAttribute("result",result);
+                    continuation.resume();
+                }
+            });
+            return null; // or continuation.undispatch();
+        }
+
+        SwitchListResult switchResult = SwitchAssembler.switchesToWebListResult(result);
+
+        if(logger.isInfoEnabled()) {
+            logger.info("分组开关等待状态改变: {}", switchResult.toString());
         }
 
         return switchResult;

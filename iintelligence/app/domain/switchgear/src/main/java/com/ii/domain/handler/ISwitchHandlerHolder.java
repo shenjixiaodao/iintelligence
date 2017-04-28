@@ -3,11 +3,11 @@ package com.ii.domain.handler;
 
 import com.ii.domain.base.DeviceId;
 
-public interface ISwitchHandlerHolder extends IDeviceHandlerHolder<SwitchHandler>{
+public interface ISwitchHandlerHolder extends IDeviceHandlerHolder<Handler>{
 
     @Override
-    SwitchHandler putHandler(DeviceId deviceId, SwitchHandler handler);
+    Handler putHandler(DeviceId deviceId, Handler handler);
 
     @Override
-    SwitchHandler fetchHandler(DeviceId deviceId);
+    Handler fetchHandler(DeviceId deviceId);
 }

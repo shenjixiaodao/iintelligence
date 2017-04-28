@@ -56,7 +56,7 @@ public class SwitchStatus implements Status<SwitchStatus> {
     }
 
     @Override
-    public boolean reconfirmeStatus(SwitchStatus other, int seconds) {
+    public boolean reconfirmStatus(SwitchStatus other, int seconds) {
         return Math.abs(this.timestamp - other.timestamp())/1000 < seconds;
     }
 }

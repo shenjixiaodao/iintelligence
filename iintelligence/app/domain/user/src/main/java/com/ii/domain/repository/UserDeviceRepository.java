@@ -4,6 +4,7 @@ import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public interface UserDeviceRepository {
      * @param type
      * @return
      */
-    List<UserDevice> find(String uid, DeviceType type);
+    List<UserDevice> find(String uid, @Nullable DeviceType type);
 
     /**
      * 设备数约束

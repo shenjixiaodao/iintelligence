@@ -1,6 +1,6 @@
 package com.ii.biz.switchgear.service;
 
-import com.ii.domain.switchgear.GroupSwitch;
+import com.ii.domain.switchgear.GroupsSwitch;
 
 /**
  * Created by liyou on 17/4/28.
@@ -12,6 +12,6 @@ public interface IUserSwitchService {
      * @param uid
      * @return
      */
-    GroupSwitch findGroupSwitch(String uid);
+    GroupsSwitch findGroupSwitch(String uid);
 
 }

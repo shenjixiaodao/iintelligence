@@ -8,7 +8,7 @@ import com.ii.domain.base.DeviceType;
 import com.ii.domain.handler.Handler;
 import com.ii.domain.handler.SwitchHandler;
 import com.ii.domain.handler.SwitchesHandler;
-import com.ii.domain.switchgear.GroupSwitch;
+import com.ii.domain.switchgear.GroupsSwitch;
 import com.ii.domain.user.UserDevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class UserSwitchServiceImpl implements IUserSwitchService {
      * @return
      */
     @Override
-    public GroupSwitch findGroupSwitch(String uid) {
+    public GroupsSwitch findGroupSwitch(String uid) {
         if(StringUtils.isEmpty(uid))
             throw new IllegalArgumentException("uid不能为空");
         /**
@@ -46,7 +46,7 @@ public class UserSwitchServiceImpl implements IUserSwitchService {
         /**
          * 获取所有的handler实例, 对handler持有的switch进行分组
          */
-        GroupSwitch groupSwitch = new GroupSwitch();
+        GroupsSwitch groupSwitch = new GroupsSwitch();
         Map<Handler, Boolean> handlers = new HashMap<>();//过滤重复
         for(UserDevice userDevice : userDevices){
             Handler handler = SwitchHandlerHolder.getHolder().getHandler(userDevice.device().deviceId());

@@ -8,12 +8,12 @@ import java.util.Map;
 /**
  * Created by liyou on 17/4/28.
  */
-public class GroupSwitch {
+public class GroupsSwitch {
 
-    private final Map<Integer, Group> groups;
+    private final Map<Integer, GroupSwitch> groups;
     private int currentGroupId = 0;
 
-    public GroupSwitch() {
+    public GroupsSwitch() {
         this.groups = new HashMap<>();
 
     }
@@ -22,12 +22,12 @@ public class GroupSwitch {
         currentGroupId++;
         List<Switch> switches = new ArrayList<>();
         switches.add(s);
-        groups.put(currentGroupId, new Group(currentGroupId,switches));
+        groups.put(currentGroupId, new GroupSwitch(currentGroupId,switches));
     }
 
     public void putIntoNewGroup(List<Switch> switches){
         currentGroupId++;
-        groups.put(currentGroupId, new Group(currentGroupId,switches));
+        groups.put(currentGroupId, new GroupSwitch(currentGroupId,switches));
     }
 
     public boolean putIntoGroup(Integer groupId, Switch s){
@@ -42,16 +42,16 @@ public class GroupSwitch {
         return false;
     }
 
-    public List<Group> groups(){
+    public List<GroupSwitch> groups(){
         return new ArrayList<>(groups.values());
     }
 
-    public class Group {
+    public class GroupSwitch {
 
         private final Integer id;
         private final List<Switch> switches;
 
-        public Group(Integer id, List<Switch> switches) {
+        public GroupSwitch(Integer id, List<Switch> switches) {
             if (id == null)
                 throw new IllegalArgumentException("groupID不能为空");
             this.id = id;

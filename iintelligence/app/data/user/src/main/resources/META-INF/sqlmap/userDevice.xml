@@ -17,9 +17,12 @@
           device_type,
           device_status
         FROM ii_user_device
-        WHERE uid = #{uid}
+        WHERE 1=1
+        <if test="uid != null">
+            AND uid = #{uid}
+        </if>
         <if test="deviceType != null">
-          AND device_type = #{deviceType}
+            AND device_type = #{deviceType}
         </if>
         <if test="deviceStatus != null">
             AND device_status = #{deviceStatus}

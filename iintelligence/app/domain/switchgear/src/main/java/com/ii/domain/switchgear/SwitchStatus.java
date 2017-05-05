@@ -1,13 +1,11 @@
 package com.ii.domain.switchgear;
 
-import com.ii.domain.base.Status;
-
 import java.util.Objects;
 
 /**
  * Created by liyou on 17/4/20.
  */
-public class SwitchStatus implements Status<SwitchStatus> {
+public class SwitchStatus {
 
     private final Status status;
     private final Long timestamp;
@@ -50,12 +48,10 @@ public class SwitchStatus implements Status<SwitchStatus> {
 
 
 
-    @Override
     public boolean sameStatusAs(SwitchStatus other) {
         return other == null ? false : this.status == other.status();
     }
 
-    @Override
     public boolean reconfirmStatus(SwitchStatus other, int seconds) {
         return Math.abs(this.timestamp - other.timestamp())/1000 < seconds;
     }

@@ -2,12 +2,14 @@ package com.ii.biz.switchgear.common;
 
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
+import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.event.SwitchStatusChangedEvent;
 import com.ii.domain.handler.Handler;
 import com.ii.domain.handler.ISwitchHandlerHolder;
 import com.ii.domain.handler.SwitchHandler;
 
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -25,6 +27,22 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
      */
     private static ConcurrentMap<DeviceId, BlockingQueue<Handler>> handlerMap = new ConcurrentHashMap<>();
 
+    private static boolean isInit = false;
+
+    public static void init(List<Device> devices){
+        if(!isInit){
+            if(devices == null || devices.size() < 1)
+                throw new IllegalArgumentException("devices 为空");
+            for(Device device:devices){
+                //阻塞队列只允许放一个元素
+                handlerMap.put(device.deviceId(), new ArrayBlockingQueue<Handler>(1));
+            }
+            isInit = true;
+        }else {
+            throw new IllegalArgumentException("holder已被初始化不可再执行");
+        }
+    }
+
     private static class SingletonHolder{
         static SwitchHandlerHolder holder = new SwitchHandlerHolder();
     }
@@ -39,16 +57,18 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
 
     @Override
     public Handler getHandler(DeviceId deviceId) {
-        return handlerMap.get(deviceId).peek();
+        BlockingQueue<Handler> queue = handlerMap.get(deviceId);
+        if(null == queue) {
+            throw new IllegalArgumentException("未绑定设备");
+        }
+        return queue.peek();
     }
 
     @Override
     public  Handler putHandler(DeviceId deviceId, Handler handler){
         BlockingQueue<Handler> queue = handlerMap.get(deviceId);
         if(null == queue) {
-            queue = new ArrayBlockingQueue<>(1);
-            handlerMap.putIfAbsent(deviceId,queue);
-            queue = handlerMap.get(deviceId);//保证一定拿到同一个BlockingQueue实例
+            throw new IllegalArgumentException("未绑定设备");
         }
         Handler oldHandler = null;
         synchronized (queue) {

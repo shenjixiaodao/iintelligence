@@ -2,20 +2,21 @@ package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.UserAyncContinuationService;
+import com.ii.biz.switchgear.service.IUserSwitchService;
 import com.ii.domain.handler.AbstractUserSwitchesHandler;
 import com.ii.domain.handler.UserSwitchHandler;
-import com.ii.domain.handler.UserSwitchesHandler;
+import com.ii.domain.switchgear.GroupsSwitch;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
-import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
-import com.ii.iintelligence.api.controller.vo.switchgear.SwitchResult;
-import com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo;
+import com.ii.iintelligence.api.controller.constatns.WebConstants;
+import com.ii.iintelligence.api.controller.vo.switchgear.*;
 import io.swagger.annotations.*;
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.continuation.ContinuationSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -32,11 +34,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 @RequestMapping(value = "/switch")
 @Api(value = "user", description = "开关设备用户控制相关接口")
-public class SwitchUserController {
-    private final static Logger  logger = LoggerFactory.getLogger(SwitchUserController.class);
+public class UserSwitchController {
+    private final static Logger  logger = LoggerFactory.getLogger(UserSwitchController.class);
 
     @Autowired
     private UserAyncContinuationService syncContinuationService;
+
+    @Autowired
+    private IUserSwitchService userSwitchService;
 
     @ApiOperation(value = "请求改变开关状态", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
@@ -129,18 +134,28 @@ public class SwitchUserController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "uid", dataType = "string", required = true, value = "用户ID")})
     @ResponseBody
     @RequestMapping(value = "/getSwitches", method = GET)
-    public SwitchListResult getSwitches(String uid){
+    public GroupsSwitchResult getSwitches(String uid){
         if(logger.isInfoEnabled()) {
             logger.info("查询设备信息， uid : {}",uid);
         }
 
-        SwitchListResult switchListResult = new SwitchListResult();
-
-        if(logger.isInfoEnabled()) {
-            logger.info("查询设备信息返回 : {}", switchListResult.toString());
+        GroupsSwitchResult groupsSwitchResult = new GroupsSwitchResult();
+        if(StringUtils.isEmpty(uid)){
+            groupsSwitchResult.setResultCode(WebConstants.RESULT_FAIL_CODE);
+            groupsSwitchResult.setMessage("uid为空");
+            return groupsSwitchResult;
         }
 
-        return switchListResult;
+        GroupsSwitch groups = userSwitchService.findGroupSwitch(uid);
+        groupsSwitchResult.setResultCode(WebConstants.RESULT_SUCCESS_CODE);
+        List<GroupSwitchVo> groupsVo = SwitchAssembler.groupsSwitchToWebResult(groups);
+        groupsSwitchResult.setGroupSwitchVos(groupsVo);
+
+        if(logger.isInfoEnabled()) {
+            logger.info("查询分组设备信息返回 : {}", groupsSwitchResult.toString());
+        }
+
+        return groupsSwitchResult;
     }
 
 }

@@ -4,6 +4,7 @@ package com.ii.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
+import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.service.ISwitchService;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.handler.SwitchHandler;
@@ -49,6 +50,12 @@ public class SwitchTest {
         SwitchStatus status = new SwitchStatus(SwitchStatus.Status.On, System.currentTimeMillis());
         Switch s = new Switch(deviceId, status);
         switchService.registerSwitch(s);
+    }
+
+    @Test
+    public void initHelper(){
+        SwitchHandlerHolder holder = SwitchHandlerHolder.getHolder();
+        System.out.println(holder);
     }
 
 }

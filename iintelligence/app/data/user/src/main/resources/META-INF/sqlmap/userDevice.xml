@@ -3,19 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ii.data.user.mapper.UserDeviceMapper">
 
-    <resultMap id="findRM" type="com.ii.domain.user.UserDevice">
+    <resultMap id="userRM" type="com.ii.domain.user.User">
         <id property="userId.uid" column="uid" />
-        <result property="device.deviceId.id" column="device_id" />
-        <result property="device.type" column="device_type"/>
-        <result property="status" column="device_status"/>
+        <collection property="devices" resultMap="deviceRM" />
     </resultMap>
 
-    <select id="find" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="findRM">
+    <resultMap id="deviceRM" type="com.ii.domain.base.Device">
+        <result property="deviceId.id" column="device_id" />
+        <result property="type" column="device_type"/>
+        <result property="bindingStatus" column="binding_status"/>
+    </resultMap>
+
+    <select id="findUser" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="userRM">
         SELECT
           uid,
           device_id,
           device_type,
-          device_status
+          binding_status
         FROM ii_user_device
         WHERE 1=1
         <if test="uid != null">
@@ -24,8 +28,23 @@
         <if test="deviceType != null">
             AND device_type = #{deviceType}
         </if>
-        <if test="deviceStatus != null">
-            AND device_status = #{deviceStatus}
+        <if test="deviceBindingStatus != null">
+            AND binding_status = #{deviceBindingStatus}
+        </if>
+    </select>
+
+    <select id="findDevices" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="deviceRM">
+        SELECT
+        device_id,
+        device_type,
+        binding_status
+        FROM ii_user_device
+        WHERE 1=1
+        <if test="deviceType != null">
+            AND device_type = #{deviceType}
+        </if>
+        <if test="deviceBindingStatus != null">
+            AND binding_status = #{deviceBindingStatus}
         </if>
     </select>
 
@@ -34,7 +53,7 @@
             `uid`,
             `device_id`,
             `device_type`,
-            `device_status`,
+            `binding_status`,
             `gmt_create`,
             `gmt_modified`
         )
@@ -42,16 +61,16 @@
             #{userId.uid},
             #{device.deviceId.id},
             #{device.type},
-            #{status},
+            #{device.bindingStatus},
             now(),
             now()
         )
     </insert>
 
-    <update id="updateDeviceStatus" parameterType="Map">
+    <update id="updateDeviceBindingStatus" parameterType="Map">
         UPDATE `ii_user_device`
         SET
-            `device_status` = #{status},
+            `binding_status` = #{bindingStatus},
             `gmt_modified` = now()
         WHERE `device_id` = #{deviceId}
     </update>
@@ -60,7 +79,7 @@
         <id property="uid" column="uid" />
         <result property="deviceId" column="device_id" />
         <result property="deviceType" column="device_type"/>
-        <result property="deviceStatus" column="device_status"/>
+        <result property="deviceBindingStatus" column="binding_status"/>
     </resultMap>
 
     <select id="queryUserDevice" parameterType="com.ii.data.user.criteria.UserDeviceCriteria"
@@ -69,7 +88,7 @@
         uid,
         device_id,
         device_type,
-        device_status
+        binding_status
         FROM ii_user_device
         WHERE 1=1
         <if test="uid != null">
@@ -78,8 +97,8 @@
         <if test="deviceType != null">
             AND device_type = #{deviceType}
         </if>
-        <if test="deviceStatus != null">
-            AND device_status = #{deviceStatus}
+        <if test="deviceBindingStatus != null">
+            AND binding_status = #{deviceBindingStatus}
         </if>
     </select>
 

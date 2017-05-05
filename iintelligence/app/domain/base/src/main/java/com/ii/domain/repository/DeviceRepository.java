@@ -1,16 +1,17 @@
 package com.ii.domain.repository;
 
 
+import com.ii.domain.base.Device;
+import com.ii.domain.base.DeviceType;
+
+import java.util.List;
 
 /**
  * Created by liyou on 17/4/18.
  */
-public interface DeviceRepository<T> {
+public interface DeviceRepository {
 
-    void find(T device);
+    void update(Device device);
 
-    void add(T device);
-
-    void upate(T device);
-
+    List<Device> find(DeviceType type, Device.BindingStatus bindingStatus);
 }

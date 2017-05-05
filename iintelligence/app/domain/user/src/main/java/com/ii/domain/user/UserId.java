@@ -1,13 +1,13 @@
 package com.ii.domain.user;
 
-import com.ii.domain.base.Entity;
 
-import java.util.Objects;
+import com.ii.domain.base.ValueObject;
+
 
 /**
  * Created by liyou on 17/4/24.
  */
-public class UserId implements Entity<UserId> {
+public class UserId implements ValueObject<UserId> {
 
     private String uid;
 
@@ -22,14 +22,14 @@ public class UserId implements Entity<UserId> {
         return this.uid;
     }
 
-    @Override
-    public boolean sameIdentityAs(UserId other) {
-        if(this == other || Objects.equals(uid, other.uid()))
-            return true;
-        return false;
-    }
+
 
     public UserId() {
         //for ORM
+    }
+
+    @Override
+    public boolean sameValueAs(UserId other) {
+        return other != null && this.uid.equals(other.uid);
     }
 }

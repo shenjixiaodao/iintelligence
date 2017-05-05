@@ -2,6 +2,7 @@ package com.ii.domain.repository;
 
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
+import com.ii.domain.user.User;
 import com.ii.domain.user.UserDevice;
 
 import javax.annotation.Nullable;
@@ -18,7 +19,7 @@ public interface UserDeviceRepository {
      * @param type
      * @return
      */
-    List<UserDevice> find(String uid, @Nullable DeviceType type);
+    User find(String uid, @Nullable DeviceType type);
 
     /**
      * 设备数约束
@@ -29,7 +30,5 @@ public interface UserDeviceRepository {
     int deviceLimit(String uid, DeviceType type);
 
     void add(UserDevice userDevice);
-
-    void updateDeviceStatus(DeviceId deviceId, UserDevice.DeviceStatus status);
 
 }

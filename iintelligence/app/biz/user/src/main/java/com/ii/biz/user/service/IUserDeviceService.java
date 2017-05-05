@@ -1,6 +1,7 @@
 package com.ii.biz.user.service;
 
 import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
 
@@ -18,12 +19,6 @@ public interface IUserDeviceService {
      * @param deviceType
      * @return 当前用户创建的对应{@param deviceType}的设备
      */
-    List<UserDevice> createUserDevice(String uid, DeviceType deviceType);
+    List<Device> createUserDevice(String uid, DeviceType deviceType);
 
-    /**
-     * 按条件查找用户的设备
-     * @param criteria
-     * @return
-     */
-    List<UserDevice> findUserDevice(UserDeviceCriteria criteria);
 }

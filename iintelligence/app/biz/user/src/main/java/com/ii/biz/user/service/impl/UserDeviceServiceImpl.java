@@ -29,40 +29,28 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
     @Autowired
     private BaseDeviceService baseDeviceService;
 
-    @Autowired
-    private UserDeviceMapper userDeviceMapper;
-
     @Override
-    public List<UserDevice> createUserDevice(String uid, DeviceType deviceType) {
+    public List<Device> createUserDevice(String uid, DeviceType deviceType) {
         if(StringUtils.isEmpty(uid))
             throw new IllegalArgumentException("uid不允许空");
         if(deviceType == null)
             throw new IllegalArgumentException("deviceType不允许空");
-        List<UserDevice> userDevices = userDeviceRepository.find(uid, deviceType);
-        /**
-         * todo 获取用户设备上限数, 判断是否可以创建新的设备
-         */
-        User user = new User();
-        if(user.deviceLimit(deviceType) <= userDevices.size()) {
-            //设备数达到上限
-            return userDevices;
+        User user = userDeviceRepository.find(uid, deviceType);
+        if(user.deviceLimit(deviceType) <= user.devices().size()) {
+            //todo 设备数达到上限
+            return user.devices();
         }
         UserId userId = new UserId(uid);
         Device device = new Device();
         device.type(deviceType);
         DeviceId deviceId = baseDeviceService.fetchDeviceId(deviceType, uid);
         device.deviceId(deviceId);
-        UserDevice userDevice = new UserDevice(userId,device, UserDevice.DeviceStatus.Created);
+        device.bindingStatus(Device.BindingStatus.Binding);
+        UserDevice userDevice = new UserDevice(userId,device);
         userDeviceRepository.add(userDevice);
-        userDevices.add(userDevice);
+        user.devices().add(device);
 
-        return userDevices;
+        return user.devices();
     }
 
-    @Override
-    public List<UserDevice> findUserDevice(UserDeviceCriteria criteria) {
-        if(StringUtils.isEmpty(criteria.getUid()))
-            throw new IllegalArgumentException("uid不允许为空");
-        return userDeviceMapper.find(criteria);
-    }
 }

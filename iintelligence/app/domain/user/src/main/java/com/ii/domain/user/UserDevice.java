@@ -11,25 +11,10 @@ public class UserDevice implements Entity<UserDevice>{
 
     private UserId userId;
     private Device device;
-    private DeviceStatus status;
 
-    public UserDevice(UserId userId, Device device, DeviceStatus status) {
+    public UserDevice(UserId userId, Device device) {
         this.userId = userId;
         this.device = device;
-        this.status = status;
-    }
-
-    public enum DeviceStatus {
-        Created("创建"), Binding("绑定设备");
-        private String text;
-
-        DeviceStatus(String text){
-            this.text = text;
-        }
-
-        public String getText() {
-            return text;
-        }
     }
 
     public UserId userId(){
@@ -46,16 +31,10 @@ public class UserDevice implements Entity<UserDevice>{
         this.device = device;
     }
 
-    public DeviceStatus status(){
-        return status;
-    }
-    public void status(DeviceStatus status){
-        this.status = status;
-    }
-
     @Override
     public boolean sameIdentityAs(UserDevice other) {
-        if(this == other || device.sameIdentityAs(other.device()))
+        if(this == other ||
+                (userId.equals(other.userId()) && device.sameIdentityAs(other.device())))
             return true;
         return false;
     }
@@ -64,8 +43,7 @@ public class UserDevice implements Entity<UserDevice>{
     public String toString() {
         return "UserDevice{" +
                 "userId=" + userId +
-                ", device=" + device +
-                ", status=" + status +
+                ", common=" + device +
                 '}';
     }
 

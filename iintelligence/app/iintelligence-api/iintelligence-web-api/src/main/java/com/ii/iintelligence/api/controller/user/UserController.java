@@ -4,10 +4,14 @@ import com.ii.biz.user.service.IUserDeviceService;
 import com.ii.data.user.Entity.UserDeviceEntity;
 import com.ii.data.user.query.UserDeviceQueryManagement;
 import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
+import com.ii.iintelligence.api.controller.assembler.common.DeviceAssembler;
 import com.ii.iintelligence.api.controller.assembler.user.UserDeviceAssembler;
 import com.ii.iintelligence.api.controller.constatns.WebConstants;
+import com.ii.iintelligence.api.controller.vo.common.DeviceListResult;
+import com.ii.iintelligence.api.controller.vo.common.DeviceVo;
 import com.ii.iintelligence.api.controller.vo.user.NewDeviceVo;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceCriteriaVo;
 import com.ii.iintelligence.api.controller.vo.user.UserDeviceListResult;
@@ -41,11 +45,11 @@ public class UserController {
     @ApiOperation(value = "创建设备", response = UserDeviceListResult.class, httpMethod = "POST")
     @ResponseBody
     @RequestMapping(value = "/createDevice", method = POST)
-    public UserDeviceListResult createDevice(@ApiParam(value = "创建设备", required = true)
+    public DeviceListResult createDevice(@ApiParam(value = "创建设备", required = true)
                                                  @RequestBody NewDeviceVo newDeviceVo) {
         if(logger.isInfoEnabled())
             logger.info("创建设备 : {}", newDeviceVo.toString());
-        UserDeviceListResult result = new UserDeviceListResult();
+        DeviceListResult result = new DeviceListResult();
         if(StringUtils.isEmpty(newDeviceVo.getUid())){
             result.setResultCode(WebConstants.RESULT_FAIL_CODE);
             result.setMessage("uid为空");
@@ -57,12 +61,12 @@ public class UserController {
             result.setMessage("设备类型不支持");
             return result;
         }
-        List<UserDevice> userDevices = userDevice.createUserDevice(newDeviceVo.getUid(), deviceType);
-        List<UserDeviceVo> voList = UserDeviceAssembler.toVoList(userDevices);
+        List<Device> devices = userDevice.createUserDevice(newDeviceVo.getUid(), deviceType);
+        List<DeviceVo> voList = DeviceAssembler.toVoList(devices);
         result.setResultCode(WebConstants.RESULT_SUCCESS_CODE);
         result.setVoList(voList);
         if(logger.isInfoEnabled())
-            logger.info("创建设备 : {}", userDevices.toString());
+            logger.info("创建设备 : {}", devices.toString());
         return result;
     }
 

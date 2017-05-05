@@ -6,7 +6,7 @@ package com.ii.data.user.criteria;
 public class UserDeviceCriteria {
     private String uid;
     private String deviceType;
-    private String deviceStatus;
+    private String deviceBindingStatus;
 
     public String getUid() {
         return uid;
@@ -24,11 +24,11 @@ public class UserDeviceCriteria {
         this.deviceType = deviceType;
     }
 
-    public String getDeviceStatus() {
-        return deviceStatus;
+    public String getDeviceBindingStatus() {
+        return deviceBindingStatus;
     }
 
-    public void setDeviceStatus(String deviceStatus) {
-        this.deviceStatus = deviceStatus;
+    public void setDeviceBindingStatus(String deviceBindingStatus) {
+        this.deviceBindingStatus = deviceBindingStatus;
     }
 }

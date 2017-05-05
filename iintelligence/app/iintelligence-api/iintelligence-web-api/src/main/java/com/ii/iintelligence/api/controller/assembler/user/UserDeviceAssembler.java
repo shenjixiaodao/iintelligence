@@ -22,7 +22,6 @@ public class UserDeviceAssembler {
         vo.setUid(userDevice.userId().uid());
         vo.setDeviceId(userDevice.device().deviceId().id());
         vo.setDeviceType(userDevice.device().type().toString());
-        vo.setDeviceStatus(userDevice.status().toString());
         return vo;
     }
 

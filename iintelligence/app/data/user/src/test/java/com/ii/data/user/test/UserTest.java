@@ -7,6 +7,8 @@ import com.ii.data.user.Entity.UserDeviceEntity;
 import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.data.user.query.UserDeviceQueryManagement;
 import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.base.Device;
+import com.ii.domain.user.User;
 import com.ii.domain.user.UserDevice;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,18 +32,27 @@ public class UserTest {
     public void queryUserDevice(){
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setUid("123456");
-        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
         List<UserDeviceEntity> list = queryManagement.queryUserDevice(criteria);
         System.out.println(list);
     }
 
     @Test
-    public void find(){
+    public void findUser(){
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setUid("123456");
-        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
-        List<UserDevice> list = userDeviceMapper.find(criteria);
-        System.out.println(list);
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
+        User user = userDeviceMapper.findUser(criteria);
+        System.out.println(user);
+    }
+
+    @Test
+    public void findDevices(){
+        UserDeviceCriteria criteria = new UserDeviceCriteria();
+        criteria.setUid("123456");
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
+        List<Device> devices= userDeviceMapper.findDevices(criteria);
+        System.out.println(devices);
     }
 
 }

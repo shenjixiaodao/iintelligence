@@ -6,13 +6,13 @@ import com.ii.domain.switchgear.Switch;
 /**
  * Created by liyou on 17/4/18.
  */
-public interface SwitchRepository extends DeviceRepository<Switch> {
-    @Override
+public interface SwitchRepository {
+
     void find(Switch device);
 
-    @Override
+
     void add(Switch device);
 
-    @Override
+
     void upate(Switch device);
 }

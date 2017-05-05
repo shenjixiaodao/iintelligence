@@ -4,6 +4,7 @@ import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.service.IUserSwitchService;
 import com.ii.biz.user.service.IUserDeviceService;
 import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.handler.Handler;
 import com.ii.domain.handler.SwitchHandler;
@@ -41,7 +42,7 @@ public class UserSwitchServiceImpl implements IUserSwitchService {
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setDeviceType(uid);
         criteria.setDeviceType(DeviceType.Switch.toString());
-        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
         List<UserDevice> userDevices = userDeviceService.findUserDevice(criteria);
         /**
          * 获取所有的handler实例, 对handler持有的switch进行分组

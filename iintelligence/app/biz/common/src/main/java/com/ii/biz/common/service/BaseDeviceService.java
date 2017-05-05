@@ -7,7 +7,7 @@ import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.repository.UserDeviceRepository;
+import com.ii.domain.repository.DeviceRepository;
 import com.ii.domain.service.DeviceService;
 import com.ii.domain.user.UserDevice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,13 @@ import java.util.List;
 public class BaseDeviceService implements DeviceService<Device> {
 
     @Autowired
-    private UserDeviceRepository userDeviceRepository;
-
-    @Autowired
-    private UserDeviceMapper userDeviceMapper;
+    private DeviceRepository deviceRepository;
 
     @Override
     public void registerDevice(Device device) {
         //更新用户设备绑定状态，表明设备已激活
-        userDeviceRepository.updateDeviceStatus(device.deviceId(), UserDevice.DeviceStatus.Binding);
+        device.bindingStatus(Device.BindingStatus.Binding);
+        deviceRepository.update(device);
         //fixme 注册设备基本信息
     }
 
@@ -42,14 +40,6 @@ public class BaseDeviceService implements DeviceService<Device> {
 
     @Override
     public List<Device> findRegisteredDevice(DeviceType type) {
-        UserDeviceCriteria criteria = new UserDeviceCriteria();
-        criteria.setDeviceType(type.toString());
-        criteria.setDeviceStatus(UserDevice.DeviceStatus.Binding.toString());
-        List<UserDevice> userDevices = userDeviceMapper.find(criteria);
-        List<Device> devices = new ArrayList<>(userDevices.size());
-        for(UserDevice userDevice : userDevices) {
-            devices.add(userDevice.device());
-        }
-        return devices;
+        return deviceRepository.find(type, Device.BindingStatus.Binding);
     }
 }

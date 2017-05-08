@@ -4,10 +4,11 @@ import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
-import com.ii.domain.event.SwitchStatusChangedEvent;
-import com.ii.domain.handler.Handler;
-import com.ii.domain.handler.ISwitchHandlerHolder;
-import com.ii.domain.handler.SwitchHandler;
+import com.ii.domain.switchgear.event.SwitchStatusChangedEvent;
+import com.ii.domain.base.handler.Handler;
+import com.ii.domain.switchgear.handler.ISwitchHandlerHolder;
+import com.ii.domain.switchgear.handler.SwitchHandler;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -27,20 +28,16 @@ public class SwitchHandlerHolder implements ISwitchHandlerHolder{
      */
     private static ConcurrentMap<DeviceId, BlockingQueue<Handler>> handlerMap = new ConcurrentHashMap<>();
 
-    private static boolean isInit = false;
+    private static boolean isInit = true;
 
     public static void init(List<Device> devices){
-        if(!isInit){
-            if(devices == null || devices.size() < 1)
-                throw new IllegalArgumentException("devices 为空");
-            for(Device device:devices){
-                //阻塞队列只允许放一个元素
-                handlerMap.put(device.deviceId(), new ArrayBlockingQueue<Handler>(1));
-            }
-            isInit = true;
-        }else {
-            throw new IllegalArgumentException("holder已被初始化不可再执行");
+        Assert.isTrue(isInit, "holder已被初始化不可再执行");
+        Assert.notNull(devices, "devices 为空");
+        for(Device device:devices){
+            //阻塞队列只允许放一个元素
+            handlerMap.put(device.deviceId(), new ArrayBlockingQueue<Handler>(1));
         }
+        isInit = false;
     }
 
     private static class SingletonHolder{

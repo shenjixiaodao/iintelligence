@@ -411,17 +411,4 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <distributionManagement>
-        <repository>
-            <id>fsp-releases</id>
-            <name>fsp-releases</name>
-            <url>http://nexusect888.ectmygo.com:9147/content/repositories/fsp-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>fsp-snapshots</id>
-            <name>fsp-snapshots</name>
-            <url>http://nexusect888.ectmygo.com:9147/content/repositories/fsp-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 </project>

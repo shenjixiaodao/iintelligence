@@ -13,7 +13,7 @@ public class UserDeviceVo {
     @ApiModelProperty(value = "设备类型", required = true)
     private String deviceType;
     @ApiModelProperty(value = "设备注册状态", required = true)
-    private String deviceStatus;
+    private String deviceBindingStatus;
 
     public String getUid() {
         return uid;
@@ -39,12 +39,12 @@ public class UserDeviceVo {
         this.deviceType = deviceType;
     }
 
-    public String getDeviceStatus() {
-        return deviceStatus;
+    public String getDeviceBindingStatus() {
+        return deviceBindingStatus;
     }
 
-    public void setDeviceStatus(String deviceStatus) {
-        this.deviceStatus = deviceStatus;
+    public void setDeviceBindingStatus(String deviceBindingStatus) {
+        this.deviceBindingStatus = deviceBindingStatus;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class UserDeviceVo {
                 "uid='" + uid + '\'' +
                 ", deviceId='" + deviceId + '\'' +
                 ", deviceType='" + deviceType + '\'' +
-                ", deviceStatus='" + deviceStatus + '\'' +
+                ", deviceBindingStatus='" + deviceBindingStatus + '\'' +
                 '}';
     }
 }

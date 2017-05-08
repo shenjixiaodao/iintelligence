@@ -3,6 +3,7 @@ package com.ii.biz.user.test;
 
 
 import com.ii.biz.user.service.IUserDeviceService;
+import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.user.UserDevice;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class UserDeviceTest {
 
     @Test
     public void createUserDevice(){
-        List<UserDevice> list = userDevice.createUserDevice("123456", DeviceType.Switch);
+        List<Device> list = userDevice.createUserDevice("123456", DeviceType.Switch);
         System.out.println(list);
     }
 

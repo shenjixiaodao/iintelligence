@@ -2,18 +2,14 @@ package com.ii.biz.common.service;
 
 
 import com.ii.biz.common.util.IdGenerator;
-import com.ii.data.user.criteria.UserDeviceCriteria;
-import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.repository.DeviceRepository;
-import com.ii.domain.service.DeviceService;
-import com.ii.domain.user.UserDevice;
+import com.ii.domain.base.repository.DeviceRepository;
+import com.ii.domain.base.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

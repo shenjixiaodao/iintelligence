@@ -2,12 +2,11 @@ package com.ii.biz.user.service.impl;
 
 import com.ii.biz.common.service.BaseDeviceService;
 import com.ii.biz.user.service.IUserDeviceService;
-import com.ii.data.user.criteria.UserDeviceCriteria;
-import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.repository.UserDeviceRepository;
+import com.ii.domain.user.criteria.UserDeviceCriteria;
+import com.ii.domain.user.repository.UserDeviceRepository;
 import com.ii.domain.user.User;
 import com.ii.domain.user.UserDevice;
 import com.ii.domain.user.UserId;
@@ -35,7 +34,7 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
             throw new IllegalArgumentException("uid不允许空");
         if(deviceType == null)
             throw new IllegalArgumentException("deviceType不允许空");
-        User user = userDeviceRepository.find(uid, deviceType);
+        User user = new User();//userDeviceRepository.find(uid, deviceType);
         if(user.deviceLimit(deviceType) <= user.devices().size()) {
             //todo 设备数达到上限
             return user.devices();
@@ -45,12 +44,23 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
         device.type(deviceType);
         DeviceId deviceId = baseDeviceService.fetchDeviceId(deviceType, uid);
         device.deviceId(deviceId);
-        device.bindingStatus(Device.BindingStatus.Binding);
+        device.bindingStatus(Device.BindingStatus.Created);
         UserDevice userDevice = new UserDevice(userId,device);
         userDeviceRepository.add(userDevice);
         user.devices().add(device);
 
         return user.devices();
     }
+
+    @Override
+    public List<Device> findBindingDevice(String uid, DeviceType deviceType) {
+        UserDeviceCriteria criteria = new UserDeviceCriteria();
+        criteria.setDeviceType(uid);
+        criteria.setDeviceType(deviceType.toString());
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
+        User user = userDeviceRepository.find(criteria);
+        return user.devices();
+    }
+
 
 }

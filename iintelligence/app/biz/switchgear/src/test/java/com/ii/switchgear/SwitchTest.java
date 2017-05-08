@@ -7,7 +7,7 @@ import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.service.ISwitchService;
 import com.ii.domain.base.DeviceId;
-import com.ii.domain.handler.SwitchHandler;
+import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.domain.switchgear.SwitchStatus;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class SwitchTest {
 
     @Test
     public void registerStatusChangedHandler(){
-       switchContinuationService.registerStatusChangedHandler(new SwitchHandler() {
+       switchContinuationService.registerStatusEventHandler(new SwitchHandler() {
            @Override
            public Switch getSwitch() {
                return new Switch(new DeviceId("111111"),

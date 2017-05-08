@@ -6,10 +6,9 @@ package com.ii.data.user.test;
 import com.ii.data.user.Entity.UserDeviceEntity;
 import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.data.user.query.UserDeviceQueryManagement;
-import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.Device;
 import com.ii.domain.user.User;
-import com.ii.domain.user.UserDevice;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class UserTest {
     public void queryUserDevice(){
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setUid("123456");
-        criteria.setDeviceBindingStatus(Device.BindingStatus.Binding.toString());
+        criteria.setDeviceBindingStatus(Device.BindingStatus.Created.toString());
         List<UserDeviceEntity> list = queryManagement.queryUserDevice(criteria);
         System.out.println(list);
     }

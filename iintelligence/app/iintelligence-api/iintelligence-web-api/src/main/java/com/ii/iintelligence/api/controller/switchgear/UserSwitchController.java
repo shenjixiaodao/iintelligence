@@ -3,8 +3,8 @@ package com.ii.iintelligence.api.controller.switchgear;
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.UserAyncContinuationService;
 import com.ii.biz.switchgear.service.IUserSwitchService;
-import com.ii.domain.handler.AbstractUserSwitchesHandler;
-import com.ii.domain.handler.UserSwitchHandler;
+import com.ii.domain.switchgear.handler.AbstractUserSwitchesHandler;
+import com.ii.domain.switchgear.handler.UserSwitchHandler;
 import com.ii.domain.switchgear.GroupsSwitch;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -43,10 +42,10 @@ public class UserSwitchController {
     @Autowired
     private IUserSwitchService userSwitchService;
 
-    @ApiOperation(value = "请求改变开关状态", response = SwitchResult.class, httpMethod = "POST")
+    @ApiOperation(value = "发布状态事件", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/changeSwitchStatus", method = POST)
-    public SwitchResult changeSwitchStatus(
+    @RequestMapping(value = "/publishStatusEvent", method = POST)
+    public SwitchResult publishStatusEvent(
             @ApiParam(value = "开关", required = true) @RequestBody(required = false) final SwitchVo switchVo,
                                               HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
@@ -65,7 +64,7 @@ public class UserSwitchController {
             }
             // suspend the request
             continuation.suspend(); // always suspend before registration
-            syncContinuationService.registerStatusCommandHandler(new UserSwitchHandler() {
+            syncContinuationService.registerStatusEventHandler(new UserSwitchHandler() {
                 @Override
                 public Switch getSwitch() {
                     return SwitchAssembler.voToSwitch(switchVo);
@@ -110,7 +109,7 @@ public class UserSwitchController {
             }
             // suspend the request
             continuation.suspend(); // always suspend before registration
-            syncContinuationService.registerStatusCommandHandler(
+            syncContinuationService.registerStatusEventHandler(
                     new AbstractUserSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
                 @Override
                 public void doResultReadyEvent(Result result) {
@@ -130,11 +129,11 @@ public class UserSwitchController {
         return switchResult;
     }
 
-    @ApiOperation(value = "查询设备信息", response = SwitchListResult.class, httpMethod = "GET")
+    @ApiOperation(value = "查询在线设备信息", response = SwitchListResult.class, httpMethod = "GET")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "uid", dataType = "string", required = true, value = "用户ID")})
     @ResponseBody
-    @RequestMapping(value = "/getSwitches", method = GET)
-    public GroupsSwitchResult getSwitches(String uid){
+    @RequestMapping(value = "/getOnlineSwitches", method = GET)
+    public GroupsSwitchResult getOnlineSwitches(String uid){
         if(logger.isInfoEnabled()) {
             logger.info("查询设备信息， uid : {}",uid);
         }

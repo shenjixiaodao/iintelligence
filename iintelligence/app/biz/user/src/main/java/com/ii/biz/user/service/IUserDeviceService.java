@@ -1,9 +1,7 @@
 package com.ii.biz.user.service;
 
-import com.ii.data.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.user.UserDevice;
 
 import java.util.List;
 
@@ -21,4 +19,5 @@ public interface IUserDeviceService {
      */
     List<Device> createUserDevice(String uid, DeviceType deviceType);
 
+    List<Device> findBindingDevice(String uid, DeviceType deviceType);
 }

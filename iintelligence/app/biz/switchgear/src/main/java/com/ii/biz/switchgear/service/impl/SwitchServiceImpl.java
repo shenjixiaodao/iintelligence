@@ -3,7 +3,7 @@ package com.ii.biz.switchgear.service.impl;
 import com.google.common.eventbus.EventBus;
 import com.ii.biz.common.service.BaseDeviceService;
 import com.ii.biz.switchgear.service.ISwitchService;
-import com.ii.domain.event.ChangeSwitchStatusOKEvent;
+import com.ii.domain.switchgear.event.ChangeSwitchStatusOKEvent;
 import com.ii.domain.switchgear.Switch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

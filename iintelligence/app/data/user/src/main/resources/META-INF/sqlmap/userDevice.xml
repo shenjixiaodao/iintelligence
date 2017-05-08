@@ -14,7 +14,7 @@
         <result property="bindingStatus" column="binding_status"/>
     </resultMap>
 
-    <select id="findUser" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="userRM">
+    <select id="findUser" parameterType="com.ii.domain.user.criteria.UserDeviceCriteria" resultMap="userRM">
         SELECT
           uid,
           device_id,
@@ -33,7 +33,7 @@
         </if>
     </select>
 
-    <select id="findDevices" parameterType="com.ii.data.user.criteria.UserDeviceCriteria" resultMap="deviceRM">
+    <select id="findDevices" parameterType="com.ii.domain.user.criteria.UserDeviceCriteria" resultMap="deviceRM">
         SELECT
         device_id,
         device_type,
@@ -82,7 +82,7 @@
         <result property="deviceBindingStatus" column="binding_status"/>
     </resultMap>
 
-    <select id="queryUserDevice" parameterType="com.ii.data.user.criteria.UserDeviceCriteria"
+    <select id="queryUserDevice" parameterType="com.ii.domain.user.criteria.UserDeviceCriteria"
             resultMap="queryUserDeviceRM">
         SELECT
         uid,

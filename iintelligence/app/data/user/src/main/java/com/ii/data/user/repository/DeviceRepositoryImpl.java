@@ -1,11 +1,13 @@
 package com.ii.data.user.repository;
 
-import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.user.criteria.UserDeviceCriteria;
 import com.ii.data.user.mapper.UserDeviceMapper;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.repository.DeviceRepository;
+import com.ii.domain.base.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import java.util.Map;
 /**
  * Created by liyou on 2017/5/5.
  */
+@Repository
 public class DeviceRepositoryImpl implements DeviceRepository {
 
     @Autowired

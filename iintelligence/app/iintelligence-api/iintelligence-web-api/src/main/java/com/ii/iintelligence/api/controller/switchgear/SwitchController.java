@@ -2,8 +2,8 @@ package com.ii.iintelligence.api.controller.switchgear;
 
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
-import com.ii.domain.handler.AbstractSwitchesHandler;
-import com.ii.domain.handler.SwitchHandler;
+import com.ii.domain.switchgear.handler.AbstractSwitchesHandler;
+import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
@@ -34,10 +34,10 @@ public class SwitchController {
     @Autowired
     private SwitchAyncContinuationService syncContinuationService;
 
-    @ApiOperation(value = "请求状态改变", response = SwitchResult.class, httpMethod = "POST")
+    @ApiOperation(value = "订阅状态事件", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/waitSwitchStatusChanged", method = POST)
-    public SwitchResult waitSwitchStatusChanged(
+    @RequestMapping(value = "/subscribeStatusEvent", method = POST)
+    public SwitchResult subscribeStatusEvent(
             @ApiParam(value = "开关", required = true) @RequestBody(required = false) final SwitchVo switchVo,
                                               HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
@@ -58,7 +58,7 @@ public class SwitchController {
             // suspend the request
             continuation.suspend(); // always suspend before registration
 
-            syncContinuationService.registerStatusChangedHandler(new SwitchHandler()
+            syncContinuationService.registerStatusEventHandler(new SwitchHandler()
             {
                 @Override
                 public Switch getSwitch() {
@@ -102,7 +102,7 @@ public class SwitchController {
             }
             // suspend the request SwitchAssembler.vosToSwitches(switchVos)
             continuation.suspend(); // always suspend before registration
-            syncContinuationService.registerStatusChangedHandler(
+            syncContinuationService.registerStatusEventHandler(
                     new AbstractSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
                 @Override
                 public void doResultReadyEvent(Result result) {

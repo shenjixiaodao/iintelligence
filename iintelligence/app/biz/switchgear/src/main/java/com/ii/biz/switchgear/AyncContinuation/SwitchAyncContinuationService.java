@@ -4,10 +4,10 @@ import com.ect.common.error.Result;
 import com.ii.biz.switchgear.service.ISwitchService;
 import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.common.common.error.ResultAssembler;
-import com.ii.domain.handler.Handler;
-import com.ii.domain.handler.SwitchHandler;
-import com.ii.domain.handler.SwitchesHandler;
-import com.ii.domain.service.SwitchHandlerService;
+import com.ii.domain.base.handler.Handler;
+import com.ii.domain.switchgear.handler.SwitchHandler;
+import com.ii.domain.switchgear.handler.SwitchesHandler;
+import com.ii.domain.switchgear.service.SwitchHandlerService;
 import com.ii.domain.switchgear.Switch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +30,7 @@ public class SwitchAyncContinuationService implements SwitchHandlerService{
     private ISwitchService switchStateService;
 
     @Override
-    public void registerStatusChangedHandler(final SwitchHandler handler) {
+    public void registerStatusEventHandler(final SwitchHandler handler) {
         executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +53,7 @@ public class SwitchAyncContinuationService implements SwitchHandlerService{
     }
 
     @Override
-    public void registerStatusChangedHandler(final SwitchesHandler handler) {
+    public void registerStatusEventHandler(final SwitchesHandler handler) {
         executor.submit(new Runnable() {
             @Override
             public void run() {

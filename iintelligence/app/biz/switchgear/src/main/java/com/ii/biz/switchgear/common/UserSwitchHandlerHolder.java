@@ -3,9 +3,9 @@ package com.ii.biz.switchgear.common;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
 import com.ii.domain.base.DeviceId;
-import com.ii.domain.event.ChangeSwitchStatusOKEvent;
-import com.ii.domain.handler.IUserSwitchHandlerHolder;
-import com.ii.domain.handler.Handler;
+import com.ii.domain.switchgear.event.ChangeSwitchStatusOKEvent;
+import com.ii.domain.switchgear.handler.IUserSwitchHandlerHolder;
+import com.ii.domain.base.handler.Handler;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

@@ -1,7 +1,7 @@
 package com.ii.data.user.mapper;
 
 import com.ii.data.user.Entity.UserDeviceEntity;
-import com.ii.data.user.criteria.UserDeviceCriteria;
+import com.ii.domain.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.Device;
 import com.ii.domain.user.User;
 import com.ii.domain.user.UserDevice;

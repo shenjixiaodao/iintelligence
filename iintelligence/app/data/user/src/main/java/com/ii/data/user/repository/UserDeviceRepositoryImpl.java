@@ -1,20 +1,14 @@
 package com.ii.data.user.repository;
 
 import com.ii.data.user.mapper.UserDeviceMapper;
-import com.ii.data.user.criteria.UserDeviceCriteria;
-import com.ii.domain.base.Device;
+import com.ii.domain.user.criteria.UserDeviceCriteria;
 import com.ii.domain.base.DeviceType;
-import com.ii.domain.repository.DeviceRepository;
-import com.ii.domain.repository.UserDeviceRepository;
+import com.ii.domain.user.repository.UserDeviceRepository;
 import com.ii.domain.user.User;
 import com.ii.domain.user.UserDevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liyou on 17/4/24.
@@ -32,6 +26,11 @@ public class UserDeviceRepositoryImpl implements UserDeviceRepository{
         UserDeviceCriteria criteria = new UserDeviceCriteria();
         criteria.setUid(uid);
         criteria.setDeviceType(type.toString());
+        return userDeviceMapper.findUser(criteria);
+    }
+
+    @Override
+    public User find(UserDeviceCriteria criteria) {
         return userDeviceMapper.findUser(criteria);
     }
 

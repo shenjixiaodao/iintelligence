@@ -2,14 +2,13 @@ package com.ii.biz.switchgear.AyncContinuation;
 
 import com.google.common.eventbus.EventBus;
 import com.ii.biz.switchgear.common.UserSwitchHandlerHolder;
-import com.ii.domain.event.SwitchStatusChangedEvent;
-import com.ii.domain.event.ChangeSwitchStatusOKEvent;
-import com.ii.domain.event.SwitchesStatusChangedEvent;
-import com.ii.domain.event.ChangeSwitchesStatusOKEvent;
-import com.ii.domain.handler.Handler;
-import com.ii.domain.handler.UserSwitchHandler;
-import com.ii.domain.handler.UserSwitchesHandler;
-import com.ii.domain.service.UserSwitchHandlerService;
+import com.ii.domain.switchgear.event.SwitchStatusChangedEvent;
+import com.ii.domain.switchgear.event.ChangeSwitchStatusOKEvent;
+import com.ii.domain.switchgear.event.SwitchesStatusChangedEvent;
+import com.ii.domain.switchgear.event.ChangeSwitchesStatusOKEvent;
+import com.ii.domain.switchgear.handler.UserSwitchHandler;
+import com.ii.domain.switchgear.handler.UserSwitchesHandler;
+import com.ii.domain.switchgear.service.UserSwitchHandlerService;
 import com.ii.domain.switchgear.Switch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,7 +34,7 @@ public class UserAyncContinuationService implements UserSwitchHandlerService {
     }
 
     @Override
-    public void registerStatusCommandHandler(final UserSwitchHandler handler) {
+    public void registerStatusEventHandler(final UserSwitchHandler handler) {
         executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +52,7 @@ public class UserAyncContinuationService implements UserSwitchHandlerService {
     }
 
     @Override
-    public void registerStatusCommandHandler(final UserSwitchesHandler handler) {
+    public void registerStatusEventHandler(final UserSwitchesHandler handler) {
         executor.submit(new Runnable() {
             @Override
             public void run() {

@@ -80,14 +80,14 @@ public class SwitchController {
         return switchResult;
     }
 
-    @ApiOperation(value = "请求分组开关状态改变", response = SwitchResult.class, httpMethod = "POST")
+    @ApiOperation(value = "订阅分组开关状态改变", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/waitSwitchesStatusChanged", method = POST)
-    public SwitchListResult waitSwitchesStatusChanged(
+    @RequestMapping(value = "/subscribeSwitchesStatusChanged", method = POST)
+    public SwitchListResult subscribeSwitchesStatusChanged(
             @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
                                                  HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("分组开关等待状态改变，  {}",switchVos.toString());
+            logger.info("分组开关等待状态改变，  {}",switchVos);
         }
         // if we need to get asynchronous results
         Result<List<Switch>> result = (Result) request.getAttribute("result");

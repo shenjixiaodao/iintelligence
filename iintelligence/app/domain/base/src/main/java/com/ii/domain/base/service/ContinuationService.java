@@ -1,9 +1,9 @@
 package com.ii.domain.base.service;
 
 /**
- * Created by liyou on 17/4/19.
+ * Created by liyou on 2017/5/11.
  */
-public interface DeviceHandlerService<T> {
+public interface ContinuationService<T> {
 
     void registerStatusEventHandler(final T handler);
 

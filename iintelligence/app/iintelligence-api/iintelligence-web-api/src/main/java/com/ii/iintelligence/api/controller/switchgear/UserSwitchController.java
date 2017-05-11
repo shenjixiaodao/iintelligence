@@ -49,7 +49,7 @@ public class UserSwitchController {
             @ApiParam(value = "开关", required = true) @RequestBody(required = false) final SwitchVo switchVo,
                                               HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("改变开关状态， switchVo : {}",switchVo.toString());
+            logger.info("改变开关状态， switchVo : {}",switchVo);
         }
         // if we need to get asynchronous results
         Result<Switch> result = (Result) request.getAttribute("result");
@@ -87,28 +87,26 @@ public class UserSwitchController {
         return switchResult;
     }
 
-    @ApiOperation(value = "请求改变分组开关状态", response = SwitchResult.class, httpMethod = "POST")
+    @ApiOperation(value = "发布分组开关状态", response = SwitchResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/changeSwitchesStatus", method = POST)
-    public SwitchListResult changeSwitchesStatus(
+    @RequestMapping(value = "/publishSwitchesStatus", method = POST)
+    public SwitchListResult publishSwitchesStatus(
             @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
                                              HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("改变开关状态， switchVo : {}",switchVos.toString());
+            logger.info("改变开关状态， switchVo : {}",switchVos);
         }
         // if we need to get asynchronous results
         Result<List<Switch>> result = (Result) request.getAttribute("result");
         if (result == null)
         {
             final Continuation continuation = ContinuationSupport.getContinuation(request);
-            // if this is not a timeout
             if (continuation.isExpired())
             {
                 //todo 超时处理
                 return null;
             }
-            // suspend the request
-            continuation.suspend(); // always suspend before registration
+            continuation.suspend();
             syncContinuationService.registerStatusEventHandler(
                     new AbstractUserSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
                 @Override
@@ -117,7 +115,7 @@ public class UserSwitchController {
                     continuation.resume();
                 }
             });
-            return null; // or continuation.undispatch();
+            return null;
         }
 
         SwitchListResult switchResult = SwitchAssembler.switchesToWebListResult(result);

@@ -1,6 +1,6 @@
 package com.ii.domain.switchgear.service;
 
-import com.ii.domain.base.service.DeviceHandlerService;
+import com.ii.domain.base.service.ContinuationService;
 import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.handler.SwitchesHandler;
 import com.ii.domain.switchgear.event.SwitchesStatusChangedEvent;
@@ -8,7 +8,7 @@ import com.ii.domain.switchgear.event.SwitchesStatusChangedEvent;
 /**
  * Created by liyou on 17/4/19.
  */
-public interface SwitchHandlerService extends DeviceHandlerService<SwitchHandler> {
+public interface SwitchHandlerService extends ContinuationService<SwitchHandler> {
 
     @Override
     void registerStatusEventHandler(final SwitchHandler handler);

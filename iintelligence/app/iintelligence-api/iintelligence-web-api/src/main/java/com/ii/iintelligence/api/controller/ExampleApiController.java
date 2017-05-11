@@ -15,41 +15,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/trading")
+@RequestMapping(value = "/example")
 @Api(value = "example", description = "示例相关接口")
 public class ExampleApiController {
     private final static Logger  logger = LoggerFactory.getLogger(ExampleApiController.class);
 
-    @ApiOperation(value = "查询支付信息", response = GetResponseResult.class, httpMethod = "GET")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "tradingId", dataType = "string", required = true, value = "交易单ID")})
+    @ApiOperation(value = "get方法", response = GetResponseResult.class, httpMethod = "GET")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", dataType = "string", required = true, value = "ID")})
     @ResponseBody
-    @RequestMapping(value = "/payInfo", method = GET)
-    public GetResponseResult payInfo(String tradingId){
+    @RequestMapping(value = "/get", method = GET)
+    public GetResponseResult get(String id){
         if(logger.isInfoEnabled()) {
-            logger.info("查询支付信息， tradingId : {}",tradingId);
+            logger.info("get : {}",id);
         }
-        GetResponseResult payInfoResult = new GetResponseResult();
+        GetResponseResult getResponseResult = new GetResponseResult();
 
         if(logger.isInfoEnabled()) {
-            logger.info("查询支付信息返回: {}", payInfoResult.toString());
+            logger.info("get {}", getResponseResult.toString());
         }
 
-        return payInfoResult;
+        return getResponseResult;
     }
 
 
-    @ApiOperation(value = "认购", response = PostResponseResult.class, httpMethod = "POST")
+    @ApiOperation(value = "post方法", response = PostResponseResult.class, httpMethod = "POST")
     @ResponseBody
-    @RequestMapping(value = "/subscribe", method = POST)
-    public PostResponseResult subscribe(@ApiParam(value = "认购", required = true) @RequestBody RequestVo requestVo) {
+    @RequestMapping(value = "/post", method = POST)
+    public PostResponseResult post(@ApiParam(value = "请求Vo", required = true) @RequestBody RequestVo requestVo) {
         if(logger.isInfoEnabled())
-            logger.info("认购请求: "+ requestVo.toString());
+            logger.info("post请求: "+ requestVo.toString());
         PostResponseResult result = new PostResponseResult();
 
-        if(logger.isInfoEnabled() && result.getResultCode().equals(WebConstants.RESULT_SUCCESS_CODE))
-            logger.info("===== 认购请求成功 =====");
-        else if(result.getResultCode().equals(WebConstants.RESULT_FAIL_CODE))
-            logger.warn("!--! 认购请求失败，返回: {}", result.getMessage());
         return result;
     }
 }

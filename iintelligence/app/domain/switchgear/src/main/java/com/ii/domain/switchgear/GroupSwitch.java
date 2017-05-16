@@ -19,12 +19,18 @@ public class GroupSwitch {
         this.switches = switches;
     }
 
-    public GroupId groupId(){
+    public GroupId id(){
         return this.id;
+    }
+    public void id(GroupId id){
+        this.id = id;
     }
 
     public List<Switch> switches(){
         return this.switches;
+    }
+    public void switches(List<Switch> switches){
+        this.switches = switches;
     }
 
     @Deprecated

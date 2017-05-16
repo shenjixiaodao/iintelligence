@@ -9,11 +9,11 @@
             base-package="com.ii.data.user.repository
                           com.ii.data.user.query"/>
 
-    <!-- 配置自动扫描mapper并管理 -->
-    <bean id="tradingMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!-- 配置自动扫描mapper并管理， 已在common模块中集中配置 -->
+    <!--<bean id="userMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage"
                   value="com.ii.data.user.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-    </bean>
+    </bean>-->
 
 </beans>

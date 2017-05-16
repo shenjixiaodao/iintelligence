@@ -48,6 +48,11 @@ public class SwitchesChangeStatusEvent extends AbstractChangeStatusEvent<Switche
         super(0);
     }
 
+    public SwitchesChangeStatusEvent copyWithoutSwitches(){
+        GroupSwitch groupSwitch = new GroupSwitch(this.groupSwitch.id(), null);
+        return new SwitchesChangeStatusEvent(groupSwitch, this.cronExpression());
+    }
+
     @Override
     public boolean sameEventAs(SwitchesChangeStatusEvent other) {
         return false;

@@ -38,7 +38,7 @@ public class SwitchAssembler {
         for( GroupSwitch group : groups.groups()){
             GroupSwitchVo groupVo = new GroupSwitchVo();
             List<SwitchVo> vos = switchesToVos(group.switches());
-            groupVo.setGroupId(group.groupId().id());
+            groupVo.setGroupId(group.id().id());
             groupVo.setSwitchVos(vos);
             groupsVo.add(groupVo);
         }

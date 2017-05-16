@@ -55,6 +55,17 @@ public class Device implements Entity<Device> {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return this.deviceId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Device d = (Device) obj;
+        return this.deviceId.equals(d.deviceId());
+    }
+
     public Device() {
         //for ORM
     }

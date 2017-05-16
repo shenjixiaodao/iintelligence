@@ -16,6 +16,7 @@ public interface EventMapper {
     void addStatusEvent(SwitchChangeStatusEvent event);
     void updateStatusEvent(SwitchChangeStatusEvent event);
     SwitchChangeStatusEvent findStatusEvent(DeviceId deviceId);
+    List<SwitchChangeStatusEvent> findStatusEvents(List<DeviceId> deviceIds);
 
     void addSwitchesStatusEvent(SwitchesChangeStatusEvent event);
     void updateSwitchesStatusEvent(SwitchesChangeStatusEvent event);

@@ -34,7 +34,7 @@ public class GroupsSwitch {
     }
 
     public void putIntoNewGroup(GroupSwitch groupSwitch){
-        groups.put(groupSwitch.groupId(), groupSwitch);
+        groups.put(groupSwitch.id(), groupSwitch);
     }
 
     public boolean putIntoGroup(Integer groupId, Switch s){

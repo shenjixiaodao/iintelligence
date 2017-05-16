@@ -43,4 +43,12 @@
     <!-- 配置注解式事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <!-- 配置自动扫描mapper并管理 -->
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage"
+                  value="com.ii.data.user.mapper
+                         com.ii.data.switchgear.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
 </beans>

@@ -29,7 +29,7 @@ public class EventRepositoryImpl implements EventRepository{
     private EventMapper eventMapper;
 
     @Override
-    public void storeChangeStatusEvent(SwitchChangeStatusEvent event) {
+    public void storeStatusEvent(SwitchChangeStatusEvent event) {
         eventMapper.addStatusEvent(event);
     }
 
@@ -40,12 +40,12 @@ public class EventRepositoryImpl implements EventRepository{
 
     @Override
     public SwitchChangeStatusEvent findStatusEvent(DeviceId deviceId) {
-        return null;
+        return eventMapper.findStatusEvent(deviceId);
     }
 
     @Override
     public List<SwitchChangeStatusEvent> findStatusEvent(List<DeviceId> deviceIds) {
-        return null;
+        return eventMapper.findStatusEvents(deviceIds);
     }
 
     @Override
@@ -58,13 +58,18 @@ public class EventRepositoryImpl implements EventRepository{
     }
 
     @Override
-    public void storeChangeStatusEvent(SwitchesChangeStatusEvent event) {
+    public void storeStatusEvent(SwitchesChangeStatusEvent event) {
         eventMapper.addSwitchesStatusEvent(event);
     }
 
     @Override
+    public void updateStatusEvent(SwitchesChangeStatusEvent event) {
+        eventMapper.updateSwitchesStatusEvent(event);
+    }
+
+    @Override
     public SwitchesChangeStatusEvent findSwitchesStatusEvent(GroupId groupId) {
-        return null;
+        return eventMapper.findSwitchesStatusEvent(groupId);
     }
 
     @Override

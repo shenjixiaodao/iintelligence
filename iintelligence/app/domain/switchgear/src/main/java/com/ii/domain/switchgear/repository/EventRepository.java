@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface EventRepository {
 
-    void storeChangeStatusEvent(SwitchChangeStatusEvent event);
+    void storeStatusEvent(SwitchChangeStatusEvent event);
     void updateStatusEvent(SwitchChangeStatusEvent event);
     SwitchChangeStatusEvent findStatusEvent(DeviceId deviceId);
     List<SwitchChangeStatusEvent> findStatusEvent(List<DeviceId> deviceIds);
@@ -24,7 +24,8 @@ public interface EventRepository {
      */
     List<SwitchChangeStatusEvent> nextPeriodStatusEvent(int batchNo);
 
-    void storeChangeStatusEvent(SwitchesChangeStatusEvent event);
+    void storeStatusEvent(SwitchesChangeStatusEvent event);
+    void updateStatusEvent(SwitchesChangeStatusEvent event);
     SwitchesChangeStatusEvent findSwitchesStatusEvent(GroupId groupId);
 
     /**

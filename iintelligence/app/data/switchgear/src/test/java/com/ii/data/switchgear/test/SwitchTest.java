@@ -9,6 +9,7 @@ import com.ii.domain.switchgear.Switch;
 import com.ii.domain.switchgear.SwitchStatus;
 import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
 import com.ii.domain.switchgear.event.SwitchesChangeStatusEvent;
+import com.ii.domain.switchgear.repository.EventRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class SwitchTest {
 
     @Autowired
     private EventMapper eventMapper;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Test
     public void addSwitchesStatusEvent(){
@@ -85,6 +89,12 @@ public class SwitchTest {
     public void findStatusEvent(){
         DeviceId deviceId = new DeviceId("1233");
         SwitchChangeStatusEvent event = eventMapper.findStatusEvent(deviceId);
+        event = eventRepository.findStatusEvent(deviceId);
+        //
+        List<DeviceId> deviceIds = new ArrayList<>();
+        deviceIds.add(deviceId);
+        deviceIds.add(new DeviceId("1234"));
+        List<SwitchChangeStatusEvent> events = eventMapper.findStatusEvents(deviceIds);
         System.out.println();
     }
 

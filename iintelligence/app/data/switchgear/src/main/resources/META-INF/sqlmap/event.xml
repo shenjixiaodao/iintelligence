@@ -3,38 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ii.data.switchgear.mapper.EventMapper">
 
-    <insert id="addStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent">
-        INSERT INTO `ii_period_status_event`(
-            `device_id`,
-            `group_id`,
-            `event_type`,
-            `cron_expression`,
-            `gmt_create`,
-            `gmt_modified`,
-            `status`
-        )
-        VALUES(
-            #{s.deviceId.id},
-            NULL,
-            #{eventType},
-            #{cronExpression},
-            now(),
-            now(),
-            #{s.status.status}
-        )
-    </insert>
-
-    <update id="updateStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent" >
-        UPDATE `ii_period_status_event`
-        SET
-        `group_id` = NULL ,
-        `cron_expression` = #{cronExpression} ,
-        `gmt_modified` = now(),
-        `status` = #{s.status.status},
-        `period_enabled` = #{periodEnabled}
-        WHERE `device_id` = #{s.deviceId.id} AND `event_type` = #{eventType};
-    </update>
-
+    <!-- switches status event start -->
     <insert id="addSwitchesStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchesChangeStatusEvent">
         INSERT INTO `ii_period_status_event`(
             `device_id`,
@@ -102,6 +71,42 @@
         WHERE group_id = #{id}
     </select>
 
+    <!-- switch status event end -->
+
+    <!-- switch status event start -->
+
+    <insert id="addStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent">
+        INSERT INTO `ii_period_status_event`(
+        `device_id`,
+        `group_id`,
+        `event_type`,
+        `cron_expression`,
+        `gmt_create`,
+        `gmt_modified`,
+        `status`
+        )
+        VALUES(
+        #{s.deviceId.id},
+        NULL,
+        #{eventType},
+        #{cronExpression},
+        now(),
+        now(),
+        #{s.status.status}
+        )
+    </insert>
+
+    <update id="updateStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent" >
+        UPDATE `ii_period_status_event`
+        SET
+        `group_id` = NULL ,
+        `cron_expression` = #{cronExpression} ,
+        `gmt_modified` = now(),
+        `status` = #{s.status.status},
+        `period_enabled` = #{periodEnabled}
+        WHERE `device_id` = #{s.deviceId.id} AND `event_type` = #{eventType};
+    </update>
+
     <resultMap id="switchStatusEventRM" type="com.ii.domain.switchgear.event.SwitchChangeStatusEvent">
         <result property="cronExpression" column="cron_expression" />
         <result property="periodEnabled" column="period_enabled"/>
@@ -123,5 +128,16 @@
         FROM ii_period_status_event
         WHERE device_id = #{id}
     </select>
+
+    <select id="findStatusEvents" resultMap="switchStatusEventRM" parameterType="java.util.List">
+        SELECT device_id, status, cron_expression, period_enabled
+        FROM ii_period_status_event
+        WHERE device_id IN
+            <foreach collection ="list" item="deviceId" open="(" close=")" separator =",">
+                #{deviceId.id}
+            </foreach>
+    </select>
+
+    <!-- switch status event end -->
 
 </mapper>

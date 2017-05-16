@@ -6,10 +6,13 @@ import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.service.ISwitchService;
+import com.ii.biz.switchgear.service.IUserSwitchService;
 import com.ii.domain.base.DeviceId;
+import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
 import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.domain.switchgear.SwitchStatus;
+import com.ii.domain.switchgear.service.UserSwitchScheduledService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class SwitchTest {
 
     @Autowired
     private ISwitchService switchService;
+
+    @Autowired
+    private UserSwitchScheduledService switchScheduledService;
 
     @Test
     public void registerStatusChangedHandler(){
@@ -56,6 +62,17 @@ public class SwitchTest {
     public void initHelper(){
         SwitchHandlerHolder holder = SwitchHandlerHolder.getHolder();
         System.out.println(holder);
+    }
+
+    @Test
+    public void postDelayChangeStatusEvent(){
+        DeviceId deviceId = new DeviceId("Switch20170425142755100156");
+        SwitchStatus status = new SwitchStatus(SwitchStatus.Status.On, System.currentTimeMillis());
+        Switch s = new Switch(deviceId, status);
+        SwitchChangeStatusEvent event = new SwitchChangeStatusEvent(s,10);
+        System.out.println(System.currentTimeMillis() / 1000);
+        switchScheduledService.postDelayChangeStatusEvent(event);
+        System.out.println();
     }
 
 }

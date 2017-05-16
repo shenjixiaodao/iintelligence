@@ -14,12 +14,6 @@ public interface ISwitchService{
     void reviseStatus(Switch s);
 
     /**
-     * 设备状态修改确认
-     * @param s 确认设备
-     */
-    void switchStatusChangedConfirm(Switch s);
-
-    /**
      * 注册设备: 包括激活设备、信息注册等
      * @param s
      */

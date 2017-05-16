@@ -26,13 +26,6 @@ public class SwitchServiceImpl implements ISwitchService {
         //todo
     }
 
-    @Override
-    public void switchStatusChangedConfirm(Switch s) {
-        ChangeSwitchStatusOKEvent event = new ChangeSwitchStatusOKEvent(s);
-        eventBus.post(event);
-
-    }
-
     @Transactional
     @Override
     public void registerSwitch(Switch s) {

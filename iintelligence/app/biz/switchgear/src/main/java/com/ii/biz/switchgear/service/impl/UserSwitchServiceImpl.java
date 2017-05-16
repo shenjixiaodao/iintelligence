@@ -1,15 +1,20 @@
 package com.ii.biz.switchgear.service.impl;
 
+import com.ii.biz.common.common.event.eventbus.ScheduledEventBus;
 import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.service.IUserSwitchService;
 import com.ii.biz.user.service.IUserDeviceService;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceType;
 import com.ii.domain.base.handler.Handler;
+import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
 import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.handler.SwitchesHandler;
 import com.ii.domain.switchgear.GroupsSwitch;
+import com.ii.domain.switchgear.repository.EventRepository;
+import com.ii.domain.switchgear.service.UserSwitchScheduledService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.HashMap;
@@ -20,10 +25,17 @@ import java.util.Map;
  * Created by liyou on 17/4/28.
  */
 @Service
-public class UserSwitchServiceImpl implements IUserSwitchService {
+public class UserSwitchServiceImpl implements IUserSwitchService, UserSwitchScheduledService {
 
     @Autowired
     private IUserDeviceService userDeviceService;
+
+    @Autowired
+    @Qualifier("scheduledEventBus")
+    private ScheduledEventBus eventBus;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     /**
      * 返回由{@link SwitchHandler#getSwitch()}和{@link SwitchesHandler#getSwitches()}的返回结果进行分组的分组开关。
@@ -60,4 +72,24 @@ public class UserSwitchServiceImpl implements IUserSwitchService {
         return groupSwitch;
     }
 
+    @Override
+    public void postDelayStatusChangedEvent(SwitchChangeStatusEvent event) {
+        if(!event.isPersistable()){
+            eventBus.post(event, event.delay());
+        }else {
+            //todo 持久化事件
+        }
+    }
+
+    @Override
+    public void postPeriodStatusChangedEvent(SwitchChangeStatusEvent event) {
+        if(event.canPost()){
+            eventBus.post(event, event.delay());
+        }
+        if(eventRepository.findStatusEvent(event.s().deviceId()) == null) {
+            eventRepository.storeChangeStatusEvent(event);
+        } else {
+            eventRepository.updateStatusEvent(event);
+        }
+    }
 }

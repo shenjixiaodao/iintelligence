@@ -2,6 +2,7 @@ package com.ii.domain.switchgear.handler;
 
 import com.ect.common.error.Result;
 import com.ii.domain.base.handler.Handler;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.Switch;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface SwitchesHandler<T> extends Handler<T> {
      * 该handler持有一组开关设备
      * @return 当前开关的状态
      */
-    List<Switch> getSwitches();
+    GroupSwitch getSwitches();
 
     /**
      * 对于一组开关关联的一个handler，如果个别或几个开关接收了用户发出的指令，则该handler对应的connection已经结束，

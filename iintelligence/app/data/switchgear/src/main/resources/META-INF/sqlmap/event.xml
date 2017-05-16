@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ii.data.switchgear.mapper.EventMapper">
+
+    <insert id="addStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent">
+        INSERT INTO `ii_period_status_event`(
+            `device_id`,
+            `group_id`,
+            `event_type`,
+            `cron_expression`,
+            `gmt_create`,
+            `gmt_modified`,
+            `status`
+        )
+        VALUES(
+            #{s.deviceId.id},
+            NULL,
+            #{eventType},
+            #{cronExpression},
+            now(),
+            now(),
+            #{s.status.status}
+        )
+    </insert>
+
+    <update id="updateStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchChangeStatusEvent" >
+        UPDATE `ii_period_status_event`
+        SET
+        `group_id` = NULL ,
+        `cron_expression` = #{cronExpression} ,
+        `gmt_modified` = now(),
+        `status` = #{s.status.status},
+        `period_enabled` = #{periodEnabled}
+        WHERE `device_id` = #{s.deviceId.id} AND `event_type` = #{eventType};
+    </update>
+
+    <insert id="addSwitchesStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchesChangeStatusEvent">
+        INSERT INTO `ii_period_status_event`(
+            `device_id`,
+            `group_id`,
+            `event_type`,
+            `cron_expression`,
+            `gmt_create`,
+            `gmt_modified`,
+            `status`
+        )
+        VALUES
+        <foreach collection ="groupSwitch.switches" item="s" separator =",">
+          (
+            #{s.deviceId.id},
+            #{groupSwitch.id.id} ,
+            #{eventType},
+            #{cronExpression},
+            now(),
+            now(),
+            #{s.status.status}
+          )
+        </foreach>
+    </insert>
+
+    <update id="updateSwitchesStatusEvent" parameterType="com.ii.domain.switchgear.event.SwitchesChangeStatusEvent" >
+        UPDATE `ii_period_status_event`
+        SET
+        `group_id` = #{groupSwitch.id.id} ,
+        `cron_expression` = #{cronExpression} ,
+        `gmt_modified` = now(),
+        `status` = #{s.status.status},
+        `period_enabled` = #{periodEnabled}
+        WHERE `event_type` = #{eventType}
+          AND `device_id` IN
+            <foreach collection ="groupSwitch.switches" item="s" open="(" close=")" separator =",">
+                #{s.deviceId.id}
+            </foreach>
+    </update>
+
+    <resultMap id="switchRM" type="com.ii.domain.switchgear.Switch">
+        <result property="deviceId.id" column="device_id" />
+        <result property="status.status" column="status"/>
+    </resultMap>
+
+    <resultMap id="switchesStatusEventRM" type="com.ii.domain.switchgear.event.SwitchesChangeStatusEvent">
+        <result property="groupSwitch.id.id" column="group_id" />
+        <result property="cronExpression" column="cron_expression" />
+        <result property="periodEnabled" column="period_enabled"/>
+        <collection property="groupSwitch.switches" resultMap="switchRM" />
+    </resultMap>
+    <select id="countSwitchesStatusEvent" resultType="Integer">
+        SELECT count(group_id) FROM ii_period_status_event
+        WHERE group_id IS NOT NULL AND period_enabled = #{periodEnabled}
+    </select>
+    <select id="findSwitchesStatusEvents" resultMap="switchesStatusEventRM" parameterType="java.util.Map">
+        SELECT device_id, status, group_id, cron_expression, period_enabled
+        FROM ii_period_status_event
+        WHERE group_id IS NOT NULL AND period_enabled = #{periodEnabled}
+        limit ${pageSize} offset ${offset}
+    </select>
+
+    <select id="findSwitchesStatusEvent" resultMap="switchesStatusEventRM" parameterType="com.ii.domain.base.GroupId">
+        SELECT device_id, status, group_id, cron_expression, period_enabled
+        FROM ii_period_status_event
+        WHERE group_id = #{id}
+    </select>
+
+    <resultMap id="switchStatusEventRM" type="com.ii.domain.switchgear.event.SwitchChangeStatusEvent">
+        <result property="cronExpression" column="cron_expression" />
+        <result property="periodEnabled" column="period_enabled"/>
+        <association property="s" resultMap="switchRM" />
+    </resultMap>
+    <select id="countSwitchStatusEvent" resultType="Integer">
+        SELECT count(device_id) FROM ii_period_status_event
+        WHERE group_id IS NULL AND period_enabled = #{periodEnabled}
+    </select>
+    <select id="findSwitchStatusEvents" resultMap="switchStatusEventRM" parameterType="java.util.Map">
+        SELECT device_id, status, cron_expression, period_enabled
+        FROM ii_period_status_event
+        WHERE group_id IS NULL AND period_enabled = #{periodEnabled}
+        limit ${pageSize} offset ${offset}
+    </select>
+
+    <select id="findStatusEvent" resultMap="switchStatusEventRM" parameterType="com.ii.domain.base.DeviceId">
+        SELECT device_id, status, cron_expression, period_enabled
+        FROM ii_period_status_event
+        WHERE device_id = #{id}
+    </select>
+
+</mapper>

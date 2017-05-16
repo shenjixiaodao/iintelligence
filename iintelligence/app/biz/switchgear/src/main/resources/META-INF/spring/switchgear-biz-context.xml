@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <context:component-scan base-package="com.ii.biz.switchgear" />
 
@@ -13,5 +13,12 @@
         <property name="corePoolSize" value="10" />
         <property name="WaitForTasksToCompleteOnShutdown" value="true" />
     </bean>
+
+    <bean id="eventBusSubscriberProcessor" class="com.ii.biz.common.common.event.processor.EventBusSubscriberProcessor" />
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="persistentEventTask" method="periodStatusEvent" cron="${persistent.event.check.task}"/>
+        <task:scheduled ref="persistentEventTask" method="periodSwitchesStatusEvent" cron="${persistent.event.check.task}"/>
+    </task:scheduled-tasks>
 
 </beans>

@@ -5,10 +5,11 @@ import com.google.common.eventbus.Subscribe;
 import com.ii.biz.switchgear.common.SwitchHandlerHolder;
 import com.ii.biz.switchgear.common.UserSwitchHandlerHolder;
 import com.ii.biz.common.common.error.ResultAssembler;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.event.ChangeSwitchStatusOKEvent;
 import com.ii.domain.switchgear.event.ChangeSwitchesStatusOKEvent;
-import com.ii.domain.switchgear.event.SwitchStatusChangedEvent;
-import com.ii.domain.switchgear.event.SwitchesStatusChangedEvent;
+import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
+import com.ii.domain.switchgear.event.SwitchesChangeStatusEvent;
 import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.base.handler.Handler;
 import com.ii.domain.switchgear.handler.SwitchesHandler;
@@ -24,8 +25,8 @@ import java.util.List;
 public class SwitchStatusEventProcessor {
 
     @Subscribe
-    public void switchStatusChangedProcessor(SwitchStatusChangedEvent event){
-        Switch currentSwitch = event.getSwitch();
+    public void switchStatusChangedProcessor(SwitchChangeStatusEvent event){
+        Switch currentSwitch = event.s();
         /**
          * 如果返回 handler 为 null， 即此时没有 handler 响应该 event，考虑到响应结果的实时性，
          * 则该 event 应当在十秒内被处理掉。
@@ -39,7 +40,7 @@ public class SwitchStatusEventProcessor {
              * 2, 如果 currentSwitch 和 oldSwitch状态一致, 则忽略(fixme)
              */
             Switch oldSwitch = handler.getSwitch();
-            if(!currentSwitch.sameStateAs(oldSwitch)) {
+            if(!currentSwitch.sameStatusAs(oldSwitch)) {
                 result.setSuccess(true);
                 result.setResultObj(currentSwitch);
                 handler.resultReadyEvent(result);
@@ -58,13 +59,13 @@ public class SwitchStatusEventProcessor {
      * @param event
      */
     @Subscribe
-    public void switchesStatusChangedProcessor(SwitchesStatusChangedEvent event){
-        List<Switch> currentSwitches = event.getSwitches();
+    public void switchesStatusChangedProcessor(SwitchesChangeStatusEvent event){
+        GroupSwitch currentSwitches = event.groupSwitch();
         /**
          * 如果返回 handler 为 null， 即此时没有 handler 响应该 event，考虑到响应结果的实时性，
          * 则该 event 应当在十秒内被处理掉。
          */
-        for(Switch currentSwitch : currentSwitches) {
+        for(Switch currentSwitch : currentSwitches.switches()) {
             //Switch currentSwitch = currentSwitches.get(0);
             SwitchesHandler handler = (SwitchesHandler) SwitchHandlerHolder.getHolder().
                     fetchHandler(currentSwitch.deviceId());
@@ -75,7 +76,7 @@ public class SwitchStatusEventProcessor {
                  * handler，都在同一个handler里一并响应给设备。
                  */
                 result.setSuccess(true);
-                result.setResultObj(currentSwitches);
+                result.setResultObj(currentSwitches.switches());
                 handler.resultReadyEvent(result);
             } else {
                 //没有可处理该even的 handler, 需要检查设备和系统的连接状态, 直接响应用户handler
@@ -102,13 +103,13 @@ public class SwitchStatusEventProcessor {
 
     @Subscribe
     public void changeSwitchesStatusOKProcessor(ChangeSwitchesStatusOKEvent event){
-        List<Switch> currentSwitches = event.getSwitches();
-        for(Switch currentSwitch : currentSwitches) {
+        GroupSwitch currentSwitches = event.getSwitches();
+        for(Switch currentSwitch : currentSwitches.switches()) {
             Handler handler = UserSwitchHandlerHolder.getHolder().fetchHandler(currentSwitch.deviceId());
             Result<List<Switch>> result = new Result<>(false, null, null);
             if (null != handler) {
                 //将当前操作的多台设备结果响应给用户
-                result.setResultObj(currentSwitches);
+                result.setResultObj(currentSwitches.switches());
                 result.setSuccess(true);
                 handler.resultReadyEvent(result);
             }

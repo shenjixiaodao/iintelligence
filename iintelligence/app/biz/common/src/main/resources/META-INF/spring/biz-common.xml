@@ -13,7 +13,10 @@
         <constructor-arg ref="threadPool"/>
     </bean>
 
+    <bean id="scheduledEventBus" class="com.ii.biz.common.common.event.eventbus.ScheduledEventBus">
+        <constructor-arg ref="eventBus" />
+    </bean>
+
     <bean id="deadEventProcessor" class="com.ii.biz.common.common.event.processor.DeadEventProcessor" />
-    <bean id="eventBusSubscriberProcessor" class="com.ii.biz.common.common.event.processor.EventBusSubscriberProcessor" />
 
 </beans>

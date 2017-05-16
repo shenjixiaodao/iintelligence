@@ -1,6 +1,7 @@
 package com.ii.domain.switchgear.event;
 
 
+import com.ii.domain.base.EventType;
 import com.ii.domain.base.event.ChangeStatusOKEvent;
 import com.ii.domain.switchgear.Switch;
 
@@ -22,6 +23,11 @@ public class ChangeSwitchStatusOKEvent implements ChangeStatusOKEvent<ChangeSwit
     @Override
     public boolean sameEventAs(ChangeSwitchStatusOKEvent other) {
         return false;
+    }
+
+    @Override
+    public EventType getEventType() {
+        return EventType.OK;
     }
 
     @Override

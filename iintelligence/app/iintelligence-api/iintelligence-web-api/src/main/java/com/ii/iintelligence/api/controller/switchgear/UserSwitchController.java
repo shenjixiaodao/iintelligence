@@ -3,6 +3,8 @@ package com.ii.iintelligence.api.controller.switchgear;
 import com.ect.common.error.Result;
 import com.ii.biz.switchgear.AyncContinuation.UserAyncContinuationService;
 import com.ii.biz.switchgear.service.IUserSwitchService;
+import com.ii.domain.base.GroupId;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.handler.AbstractUserSwitchesHandler;
 import com.ii.domain.switchgear.handler.UserSwitchHandler;
 import com.ii.domain.switchgear.GroupsSwitch;
@@ -91,10 +93,10 @@ public class UserSwitchController {
     @ResponseBody
     @RequestMapping(value = "/publishSwitchesStatus", method = POST)
     public SwitchListResult publishSwitchesStatus(
-            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final GroupSwitchVo groupSwitchVo,
                                              HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("改变开关状态， switchVo : {}",switchVos);
+            logger.info("改变开关状态， groupSwitchVos : {}",groupSwitchVo);
         }
         // if we need to get asynchronous results
         Result<List<Switch>> result = (Result) request.getAttribute("result");
@@ -108,7 +110,7 @@ public class UserSwitchController {
             }
             continuation.suspend();
             syncContinuationService.registerStatusEventHandler(
-                    new AbstractUserSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
+                    new AbstractUserSwitchesHandler(SwitchAssembler.voToGroupSwitch(groupSwitchVo)) {
                 @Override
                 public void doResultReadyEvent(Result result) {
                     continuation.setAttribute("result",result);

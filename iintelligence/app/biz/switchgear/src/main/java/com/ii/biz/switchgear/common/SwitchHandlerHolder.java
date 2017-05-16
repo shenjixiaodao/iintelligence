@@ -4,7 +4,7 @@ import com.ii.biz.switchgear.AyncContinuation.SwitchAyncContinuationService;
 import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
-import com.ii.domain.switchgear.event.SwitchStatusChangedEvent;
+import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
 import com.ii.domain.base.handler.Handler;
 import com.ii.domain.switchgear.handler.ISwitchHandlerHolder;
 import com.ii.domain.switchgear.handler.SwitchHandler;
@@ -15,10 +15,10 @@ import java.util.concurrent.*;
 
 /**
  * 全局共享的 handler 资源对象，该holder持有的handler{@link SwitchHandler}集合都是等待用户的
- * 发起的event{@link SwitchStatusChangedEvent}。
- * 1，如果该handler已处理event{@link SwitchStatusChangedEvent},则从队里中移除该handler；
+ * 发起的event{@link SwitchChangeStatusEvent}。
+ * 1，如果该handler已处理event{@link SwitchChangeStatusEvent},则从队里中移除该handler；
  * 2，所有设备请求过来的handler都会按策略加入到该holder集合中{@link SwitchAyncContinuationService}；
- * 3，当收到用户发起的event{@link SwitchStatusChangedEvent}，
+ * 3，当收到用户发起的event{@link SwitchChangeStatusEvent}，
  * 事件订阅者subscribe{@link SwitchStatusEventProcessor}将会从该holder中获取对应的handler来处理对应事件。
  */
 public class SwitchHandlerHolder implements ISwitchHandlerHolder{

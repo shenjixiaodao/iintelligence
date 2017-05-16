@@ -21,9 +21,14 @@ public class Switch extends Device {
         return this.status;
     }
 
-    public boolean sameStateAs(Switch other) {
+    public boolean sameStatusAs(Switch other) {
         return other == null ? false :
                 this.sameIdentityAs(other) && this.status().sameStatusAs(other.status());
     }
 
+    @Deprecated
+    public Switch() {
+        //for ORM
+        type(DeviceType.Switch);
+    }
 }

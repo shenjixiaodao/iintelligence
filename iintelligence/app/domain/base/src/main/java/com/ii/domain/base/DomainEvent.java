@@ -14,4 +14,6 @@ public interface DomainEvent<T> {
    */
   boolean sameEventAs(T other);
 
+  EventType getEventType();
+
 }

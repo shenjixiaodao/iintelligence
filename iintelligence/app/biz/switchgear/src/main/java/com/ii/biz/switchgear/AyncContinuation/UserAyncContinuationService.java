@@ -2,9 +2,10 @@ package com.ii.biz.switchgear.AyncContinuation;
 
 import com.google.common.eventbus.EventBus;
 import com.ii.biz.switchgear.common.UserSwitchHandlerHolder;
-import com.ii.domain.switchgear.event.SwitchStatusChangedEvent;
+import com.ii.domain.switchgear.GroupSwitch;
+import com.ii.domain.switchgear.event.SwitchChangeStatusEvent;
 import com.ii.domain.switchgear.event.ChangeSwitchStatusOKEvent;
-import com.ii.domain.switchgear.event.SwitchesStatusChangedEvent;
+import com.ii.domain.switchgear.event.SwitchesChangeStatusEvent;
 import com.ii.domain.switchgear.event.ChangeSwitchesStatusOKEvent;
 import com.ii.domain.switchgear.handler.UserSwitchHandler;
 import com.ii.domain.switchgear.handler.UserSwitchesHandler;
@@ -14,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by liyou on 17/4/17.
@@ -41,11 +40,11 @@ public class UserAyncContinuationService implements UserSwitchHandlerService {
                 /**
                  *  用户请求修改设备状态
                  *  1，注册 handler，等待事件 {@link ChangeSwitchStatusOKEvent}；
-                 *  2，发布事件 {@link SwitchStatusChangedEvent}
+                 *  2，发布事件 {@link SwitchChangeStatusEvent}
                  */
                 Switch currentSwitch = handler.getSwitch();
                 UserSwitchHandlerHolder.getHolder().putHandler(currentSwitch.deviceId(), handler);
-                SwitchStatusChangedEvent event = new SwitchStatusChangedEvent(currentSwitch);
+                SwitchChangeStatusEvent event = new SwitchChangeStatusEvent(currentSwitch);
                 eventBus.post(event);
             }
         });
@@ -59,13 +58,13 @@ public class UserAyncContinuationService implements UserSwitchHandlerService {
                 /**
                  *  用户请求修改设备状态
                  *  1，注册 handler，等待事件 {@link ChangeSwitchesStatusOKEvent}；
-                 *  2，发布事件 {@link SwitchesStatusChangedEvent}
+                 *  2，发布事件 {@link SwitchesChangeStatusEvent}
                  */
-                List<Switch> currentSwitches = handler.getSwitches();
-                for(Switch s : currentSwitches) {
+                GroupSwitch currentSwitches = handler.getGroupSwitch();
+                for(Switch s : currentSwitches.switches()) {
                     UserSwitchHandlerHolder.getHolder().putHandler(s.deviceId(), handler);
                 }
-                SwitchesStatusChangedEvent event = new SwitchesStatusChangedEvent(currentSwitches);
+                SwitchesChangeStatusEvent event = new SwitchesChangeStatusEvent(currentSwitches);
                 eventBus.post(event);
             }
         });

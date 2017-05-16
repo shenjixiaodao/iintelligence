@@ -1,6 +1,7 @@
 package com.ii.domain.switchgear.handler;
 
 import com.ect.common.error.Result;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.Switch;
 
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class AbstractUserSwitchesHandler implements UserSwitchesHandler {
 
     private final AtomicBoolean isHandled;
-    private final List<Switch> switches;
+    private final GroupSwitch groupSwitch;
 
-    public AbstractUserSwitchesHandler(List<Switch> switches) {
+    public AbstractUserSwitchesHandler(GroupSwitch groupSwitch) {
         isHandled = new AtomicBoolean(false);
-        this.switches = switches;
+        this.groupSwitch = groupSwitch;
     }
 
     public abstract void doResultReadyEvent(Result result);
@@ -29,8 +30,8 @@ public abstract class AbstractUserSwitchesHandler implements UserSwitchesHandler
     }
 
     @Override
-    public List<Switch> getSwitches() {
-        return this.switches;
+    public GroupSwitch getGroupSwitch() {
+        return this.groupSwitch;
     }
 
     @Override

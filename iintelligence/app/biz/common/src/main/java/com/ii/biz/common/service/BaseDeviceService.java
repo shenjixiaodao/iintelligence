@@ -5,6 +5,7 @@ import com.ii.biz.common.util.IdGenerator;
 import com.ii.domain.base.Device;
 import com.ii.domain.base.DeviceId;
 import com.ii.domain.base.DeviceType;
+import com.ii.domain.base.GroupId;
 import com.ii.domain.base.repository.DeviceRepository;
 import com.ii.domain.base.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class BaseDeviceService implements DeviceService<Device> {
     @Override
     public DeviceId fetchDeviceId(DeviceType type, String uid) {
         return new DeviceId(IdGenerator.generate(type, uid.substring(uid.length() - 2)));
+    }
+
+    @Override
+    public GroupId fetchGroupId(String uid) {
+        //todo 获取组ID
+        return null;
     }
 
     @Override

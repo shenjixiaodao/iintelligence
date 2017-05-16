@@ -6,6 +6,7 @@ import com.ii.domain.switchgear.handler.AbstractSwitchesHandler;
 import com.ii.domain.switchgear.handler.SwitchHandler;
 import com.ii.domain.switchgear.Switch;
 import com.ii.iintelligence.api.controller.assembler.switchgear.SwitchAssembler;
+import com.ii.iintelligence.api.controller.vo.switchgear.GroupSwitchVo;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchListResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchResult;
 import com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo;
@@ -84,10 +85,10 @@ public class SwitchController {
     @ResponseBody
     @RequestMapping(value = "/subscribeSwitchesStatusChanged", method = POST)
     public SwitchListResult subscribeSwitchesStatusChanged(
-            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final List<SwitchVo> switchVos,
+            @ApiParam(value = "开关", required = true) @RequestBody(required = false) final GroupSwitchVo groupSwitchVo,
                                                  HttpServletResponse response, HttpServletRequest request){
         if(logger.isInfoEnabled()) {
-            logger.info("分组开关等待状态改变，  {}",switchVos);
+            logger.info("分组开关等待状态改变，  {}",groupSwitchVo);
         }
         // if we need to get asynchronous results
         Result<List<Switch>> result = (Result) request.getAttribute("result");
@@ -103,7 +104,7 @@ public class SwitchController {
             // suspend the request SwitchAssembler.vosToSwitches(switchVos)
             continuation.suspend(); // always suspend before registration
             syncContinuationService.registerStatusEventHandler(
-                    new AbstractSwitchesHandler(SwitchAssembler.vosToSwitches(switchVos)) {
+                    new AbstractSwitchesHandler(SwitchAssembler.voToGroupSwitch(groupSwitchVo)) {
                 @Override
                 public void doResultReadyEvent(Result result) {
                     continuation.setAttribute("result",result);

@@ -7,16 +7,24 @@ import java.util.Objects;
  */
 public class SwitchStatus {
 
-    private final Status status;
-    private final Long timestamp;
+    private Status status;
+    private Long timestamp;
 
     public SwitchStatus(SwitchStatus.Status state, Long timestamp) {
         this.status = state;
         this.timestamp = timestamp;
     }
 
+    public SwitchStatus(Status status) {
+        this.status = status;
+        timestamp = System.currentTimeMillis();
+    }
+
     public Status status(){
         return this.status;
+    }
+    public void status(SwitchStatus.Status status){
+        this.status = status;
     }
 
     public Long timestamp(){
@@ -46,7 +54,11 @@ public class SwitchStatus {
         }
     }
 
-
+    @Deprecated
+    public SwitchStatus() {
+        //for ORM
+        timestamp = System.currentTimeMillis();
+    }
 
     public boolean sameStatusAs(SwitchStatus other) {
         return other == null ? false : this.status == other.status();

@@ -10,15 +10,15 @@ import java.util.List;
 public class GroupSwitchVo {
 
     @ApiModelProperty(value = "组ID")
-    private int groupId;
+    private String groupId;
     @ApiModelProperty(value = "同组开关", dataType = "com.ii.iintelligence.api.controller.vo.switchgear.SwitchVo")
     private List<SwitchVo> switchVos;
 
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
@@ -33,7 +33,7 @@ public class GroupSwitchVo {
     @Override
     public String toString() {
         return "GroupSwitchVo{" +
-                "groupId=" + groupId +
+                "GroupId=" + groupId +
                 ", switchVos=" + switchVos +
                 '}';
     }

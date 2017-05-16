@@ -1,5 +1,7 @@
 package com.ii.domain.switchgear;
 
+import com.ii.domain.base.GroupId;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,29 +12,34 @@ import java.util.Map;
  */
 public class GroupsSwitch {
 
-    private final Map<Integer, GroupSwitch> groups;
-    private int currentGroupId = 0;
+    private final Map<GroupId, GroupSwitch> groups;
 
     public GroupsSwitch() {
         this.groups = new HashMap<>();
 
     }
 
+    /**
+     * 未分组开关归为同一组
+     * @param s
+     */
     public void putIntoNewGroup(Switch s){
-        currentGroupId++;
-        List<Switch> switches = new ArrayList<>();
-        switches.add(s);
-        groups.put(currentGroupId, new GroupSwitch(currentGroupId,switches));
+        if(groups.get(GroupId.Ungrouped) == null){
+            List<Switch> switches = new ArrayList<>();
+            switches.add(s);
+            groups.put(GroupId.Ungrouped, new GroupSwitch(GroupId.Ungrouped,switches));
+        }else {
+            groups.get(GroupId.Ungrouped).switches().add(s);
+        }
     }
 
-    public void putIntoNewGroup(List<Switch> switches){
-        currentGroupId++;
-        groups.put(currentGroupId, new GroupSwitch(currentGroupId,switches));
+    public void putIntoNewGroup(GroupSwitch groupSwitch){
+        groups.put(groupSwitch.groupId(), groupSwitch);
     }
 
     public boolean putIntoGroup(Integer groupId, Switch s){
         if(groupId == null)
-            throw new IllegalArgumentException("groupId 不能为空");
+            throw new IllegalArgumentException("GroupId 不能为空");
         if(s == null)
             throw new IllegalArgumentException("s 不能为空");
         if(groups.get(groupId) != null) {
@@ -44,26 +51,5 @@ public class GroupsSwitch {
 
     public List<GroupSwitch> groups(){
         return new ArrayList<>(groups.values());
-    }
-
-    public class GroupSwitch {
-
-        private final Integer id;
-        private final List<Switch> switches;
-
-        public GroupSwitch(Integer id, List<Switch> switches) {
-            if (id == null)
-                throw new IllegalArgumentException("groupID不能为空");
-            this.id = id;
-            this.switches = switches;
-        }
-
-        public Integer id(){
-            return this.id;
-        }
-
-        public List<Switch> switches(){
-            return this.switches;
-        }
     }
 }

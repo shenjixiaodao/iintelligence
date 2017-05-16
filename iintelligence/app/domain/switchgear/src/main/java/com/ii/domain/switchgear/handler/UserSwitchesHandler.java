@@ -2,6 +2,7 @@ package com.ii.domain.switchgear.handler;
 
 import com.ect.common.error.Result;
 import com.ii.domain.base.handler.Handler;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.event.ChangeSwitchesStatusOKEvent;
 import com.ii.domain.switchgear.Switch;
 
@@ -16,7 +17,7 @@ public interface UserSwitchesHandler<T> extends Handler<T> {
      * 所有开关状态处理的控制逻辑必须能够获取当前设备状态
      * @return 当前开关的状态
      */
-    List<Switch> getSwitches();
+    GroupSwitch getGroupSwitch();
 
     /**
      * 对于一组开关关联的一个handler，如果个别或几个开关接收了设备修改的确认事件{@link ChangeSwitchesStatusOKEvent}，

@@ -3,6 +3,8 @@ package com.ii.iintelligence.api.controller.assembler.switchgear;
 import com.ect.common.error.CommonError;
 import com.ect.common.error.Result;
 import com.ii.domain.base.DeviceId;
+import com.ii.domain.base.GroupId;
+import com.ii.domain.switchgear.GroupSwitch;
 import com.ii.domain.switchgear.GroupsSwitch;
 import com.ii.domain.switchgear.Switch;
 import com.ii.domain.switchgear.SwitchStatus;
@@ -11,7 +13,6 @@ import com.ii.iintelligence.api.controller.vo.switchgear.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liyou on 17/4/21.
@@ -34,14 +35,20 @@ public class SwitchAssembler {
 
     public static List<GroupSwitchVo> groupsSwitchToWebResult(GroupsSwitch groups) {
         List<GroupSwitchVo> groupsVo = new ArrayList<>(groups.groups().size());
-        for( GroupsSwitch.GroupSwitch group : groups.groups()){
+        for( GroupSwitch group : groups.groups()){
             GroupSwitchVo groupVo = new GroupSwitchVo();
             List<SwitchVo> vos = switchesToVos(group.switches());
-            groupVo.setGroupId(group.id());
+            groupVo.setGroupId(group.groupId().id());
             groupVo.setSwitchVos(vos);
             groupsVo.add(groupVo);
         }
         return groupsVo;
+    }
+
+    public static GroupSwitch voToGroupSwitch(GroupSwitchVo groupSwitchVo) {
+        GroupId groupId = new GroupId(groupSwitchVo.getGroupId());
+        GroupSwitch groupSwitch = new GroupSwitch(groupId, vosToSwitches(groupSwitchVo.getSwitchVos()));
+        return groupSwitch;
     }
 
     public static SwitchResult switchToWebResult(Result<Switch> s) {

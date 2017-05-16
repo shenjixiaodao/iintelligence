@@ -21,7 +21,7 @@ public class ExampleApiController {
     private final static Logger  logger = LoggerFactory.getLogger(ExampleApiController.class);
 
     @ApiOperation(value = "get方法", response = GetResponseResult.class, httpMethod = "GET")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "id", dataType = "string", required = true, value = "ID")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "groupId", dataType = "string", required = true, value = "ID")})
     @ResponseBody
     @RequestMapping(value = "/get", method = GET)
     public GetResponseResult get(String id){

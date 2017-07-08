@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="app-packaging" default="war" basedir=".">
+
+    <property file="musa.properties"/>
+
+    <condition property="osfamily-unix">
+        <os family="unix"/>
+    </condition>
+    <condition property="osfamily-windows">
+        <os family="windows"/>
+    </condition>
+
+    <target name="war" depends="clean,copy">
+        <war destfile="./build/deploy/${app.sysname}.war" needxmlfile="false">
+            <fileset dir="./build/target"/>
+        </war>
+    </target>
+
+    <target name="clean" depends="clean-unix,clean-windows"/>
+    <target name="clean-unix" if="osfamily-unix">
+        <exec executable="mvn" failonerror="true">
+            <arg value="clean"/>
+            <arg value="package"/>
+            <arg value="-Dmaven.test.skip=true"/>
+            <arg value="-Dmaven.javadoc.skip=true"/>
+        </exec>
+    </target>
+    <target name="clean-windows" if="osfamily-windows">
+        <exec executable="cmd" failonerror="true">
+            <arg value="/c"/>
+            <arg value="mvn"/>
+            <arg value="clean"/>
+            <arg value="package"/>
+            <arg value="-Dmaven.test.skip=true"/>
+            <arg value="-Dmaven.javadoc.skip=true"/>
+        </exec>
+    </target>
+
+    <target name="copy" depends="clean-war,mkdir-war,copy-jar,copy-resource"/>
+    <target name="clean-war">
+        <delete dir="./build"/>
+    </target>
+    <target name="mkdir-war">
+        <mkdir dir="./build/deploy"/>
+        <mkdir dir="./build/target/WEB-INF/lib"/>
+        <mkdir dir="./build/target/WEB-INF/classes"/>
+        <mkdir dir="./build/target/WEB-INF/dist" />
+    </target>
+    <target name="copy-jar">
+        <copy todir="./build/target/WEB-INF/lib" flatten="true">
+            <fileset dir="./app">
+                <include name="**/*.jar"/>
+                <exclude name="**/*-sources.jar"/>
+            </fileset>
+            <fileset dir="./target/dependency/">
+                <include name="*.jar"/>
+                <exclude name="*-sources.jar"/>
+                <exclude name="tools*.jar"/>
+                <exclude name="jconsole*.jar"/>
+                <exclude name="javax.servlet-api-*.jar"/>
+                <exclude name="commons-logging-*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="copy-resource">
+        <copy todir="./build/target/WEB-INF" flatten="true">
+            <fileset dir="./assembly/template/src/main/web">
+                <include name="web.xml"/>
+            </fileset>
+        </copy>
+        <copydir dest="./build/target/WEB-INF/classes"
+                 src="./assembly/template/src/main/resources"/>
+        <copy todir="./build/target/WEB-INF/classes" flatten="true">
+            <fileset dir="./">
+                <include name="musa.properties"/>
+            </fileset>
+        </copy>
+
+        <copy todir="./build/target/WEB-INF/dist">
+            <fileset dir="./assembly/template/dist">
+                <include name="**.*"></include>
+                <include name="**/*"></include>
+            </fileset>
+        </copy>
+
+    </target>
+
+</project>

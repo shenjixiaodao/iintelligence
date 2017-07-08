@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/api/api.iml" filepath="$PROJECT_DIR$/app/api/api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/api/api-parent.iml" filepath="$PROJECT_DIR$/app/api/api-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/api/api-web/api-web.iml" filepath="$PROJECT_DIR$/app/api/api-web/api-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/template/assembly-template.iml" filepath="$PROJECT_DIR$/assembly/template/assembly-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/biz/common/biz-common.iml" filepath="$PROJECT_DIR$/app/biz/common/biz-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/biz/biz-parent.iml" filepath="$PROJECT_DIR$/app/biz/biz-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/biz/switchgear/biz-switchgear.iml" filepath="$PROJECT_DIR$/app/biz/switchgear/biz-switchgear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/broker.iml" filepath="$PROJECT_DIR$/app/broker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/broker-assembly.iml" filepath="$PROJECT_DIR$/assembly/broker-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/broker-parent.iml" filepath="$PROJECT_DIR$/broker-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/domain/domain-parent.iml" filepath="$PROJECT_DIR$/app/domain/domain-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/domain/base/domian-base.iml" filepath="$PROJECT_DIR$/app/domain/base/domian-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/domain/switchgear/domian-switchgear.iml" filepath="$PROJECT_DIR$/app/domain/switchgear/domian-switchgear.iml" />
+    </modules>
+  </component>
+</project>

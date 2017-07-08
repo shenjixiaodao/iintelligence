@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.ii.biz.common.service" />
+
+    <bean id="threadPool" class="java.util.concurrent.ForkJoinPool"/>
+
+    <bean id="eventBus" class="com.google.common.eventbus.AsyncEventBus">
+        <constructor-arg ref="threadPool"/>
+    </bean>
+
+    <bean id="scheduledEventBus" class="com.ii.biz.common.common.event.eventbus.ScheduledEventBus">
+        <constructor-arg ref="eventBus" />
+    </bean>
+
+    <bean id="deadEventProcessor" class="com.ii.biz.common.common.event.processor.DeadEventProcessor" />
+
+</beans>

@@ -1,0 +1,48 @@
+package com.ii.biz.switchgear.common;
+
+
+import com.ii.biz.switchgear.event.processor.SwitchStatusEventProcessor;
+import com.ii.domain.base.DeviceId;
+import com.ii.domain.switchgear.handler.IUserSwitchHandlerHolder;
+import com.ii.domain.base.handler.Handler;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+
+/**
+ * 全局共享的 handler 资源对象，该holder持有的handler{@link Handler}集合都是等待设备
+ * 发起的event{@link SwitchOKEvent}。
+ * 1，如果该handler已处理event{@link SwitchOKEvent},则从队里中移除该handler；
+ * 2，所有设备请求过来的handler都会按策略加入到该holder集合中；
+ * 3，当收到用户发起的event{@link SwitchOKEvent}，
+ * 事件订阅者subscribe{@link SwitchStatusEventProcessor}将会从该holder中获取对应的handler来处理对应事件。
+ */
+public class UserSwitchHandlerHolder implements IUserSwitchHandlerHolder {
+
+    private static ConcurrentMap<DeviceId, Handler> handlerMap = new ConcurrentHashMap<>();
+
+    @Override
+    public Handler putHandler(DeviceId deviceId, Handler handler) {
+        return handlerMap.put(deviceId, handler);
+    }
+
+    @Override
+    public Handler fetchHandler(DeviceId deviceId) {
+        return handlerMap.remove(deviceId);
+    }
+
+    private static class SingletonHolder{
+        static UserSwitchHandlerHolder holder = new UserSwitchHandlerHolder();
+    }
+
+    private UserSwitchHandlerHolder(){
+        //静止被外部实例化
+    }
+
+    public static UserSwitchHandlerHolder getHolder(){
+        return SingletonHolder.holder;
+    }
+
+
+}
